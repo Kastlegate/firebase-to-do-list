@@ -5,7 +5,7 @@ function saveLists(){
     localStorage.setItem('projects', JSON.stringify(getAllProjectsArray()))
 }
 
-// unhides the New Project project form
+// unhides the New Project form
 function newProjectFormActivate(){
     let form = document.getElementById("newProjectForm");
     form.className = "";    
@@ -207,6 +207,7 @@ function dateSelected(){
 }
 
 
+
 //adds each task to the projectContent depending on which To Do is inserted as an argument
 function addTasksToCurrentProject(i){
     
@@ -372,7 +373,60 @@ function addTasksToCurrentProject(i){
 
 }
 
+function createToDoListPostItNotes(i){
+
+    let array = getAllProjectsArray();
+    let mainContent = document.getElementById("mainContent")
+    console.log("Here are all the projects in the Array");
+    console.log(array)
+
+    //for each loop to go through each to lod list element in the array and add it to the dom
+    array.forEach(element => {
+        
+        //creation of a post it note div
+        let postItNote = document.createElement("div");
+        postItNote.classList.add("postItNotes")
+            //Gets the name of the current to do list and creates a div for it and adds it to the post it note
+            let nameOfToDoList = document.createElement("div");
+            nameOfToDoList.classList.add("nameOfToDoList")
+            nameOfToDoList.textContent = element.title;
+            postItNote.appendChild(nameOfToDoList)
+        //adds the new post it note to the main content of the page
+        mainContent.appendChild(postItNote);
+        
+        //creates a list in the post it note populated with the current active tasks
+        element.tasksArray.forEach(element => {
+
+            //creating a div to hold each active task on each loop
+            let task = document.createElement("div")
+            task.classList.add("task")
+
+        //creates an un-checkmarked box
+        let notCheckedMarkedBox = document.createElement("div");        
+            notCheckedMarkedBox.className = "far fa-square";
+            notCheckedMarkedBox.classList.add("cursor")
+            notCheckedMarkedBox.addEventListener("click", activeTaskInListClicked)
+            // notCheckedMarkedBox.dataset.taskId = indexOf(element);
+            // notCheckedMarkedBox.dataset.arrayId = index;
+            task.appendChild(notCheckedMarkedBox);
+
+        // creates a div and adds the text for the current task
+        let taskText = document.createElement("div");
+            taskText.classList.add("taskText");
+            taskText.textContent = element.tasks;
+            task.appendChild(taskText);
+
+        postItNote.appendChild(task)
+        });
+
+    });
+
+
+
+}
+
+
 
 
 export { addProjectsToSideBar, addTasksToCurrentProject, newProjectFormActivate, newProjectFormDeactivate, newTaskFormActivate,
-    newTaskFormDeactivate, addNewTaskButtonClicked, addProjectButtonClicked, addnewProjectCancelClicked }
+    newTaskFormDeactivate, addNewTaskButtonClicked, addProjectButtonClicked, addnewProjectCancelClicked, createToDoListPostItNotes }

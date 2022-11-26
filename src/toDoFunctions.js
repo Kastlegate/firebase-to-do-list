@@ -1,4 +1,4 @@
-// import {  } from "./toDoListDom";
+
 
 //factory that is used to create new projects
 function projectFactory (title, tasks, priority, dueDate)

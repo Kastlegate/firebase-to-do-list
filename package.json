@@ -4,7 +4,9 @@
   "description": "",
   "main": "webpack.config.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "build": "webpack --mode=development"
+
   },
   "author": "Kastlegate",
   "license": "ISC",
@@ -15,6 +17,7 @@
     "webpack-cli": "^4.9.1"
   },
   "dependencies": {
-    "date-fns": "^2.26.0"
+    "date-fns": "^2.26.0",
+    "firebase": "^9.14.0"
   }
 }

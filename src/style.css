@@ -1,14 +1,12 @@
 body{
-    background-color: rgb(255, 247, 230);
+    /* background-color: rgb(212, 172, 123); */
     height: 100%;
     width: 100%;
     margin: auto;
-    display: flex;
-    flex-direction: column;
-    
+    animation: fadeInBody 2s;
 }
 
-@keyframes fadeIn {
+@keyframes fadeInBody {
     0%{
         opacity: .0;
     }
@@ -21,11 +19,9 @@ body{
 }
 
 #header{
-    background-color: rgb(26, 58, 26);
+    background-color: rgb(0, 140, 255);
     height: 50px;
     width: 100%;
-    position: absolute;
-    position: absolute;
     border-bottom: solid;
     display: flex;
     flex-direction: row;
@@ -34,13 +30,12 @@ body{
 #logoContainter{
     height: fit-content;
     width: fit-content;
-    margin-left: 45%;
+    /* margin-left: 45%; */
     margin-top: 0px;
     display: flex;
     flex-direction: row;
     animation: dropDown 2s;
-    /* margin: auto; */
-    
+    margin: auto;    
 }
 
 @keyframes dropDown {
@@ -52,7 +47,6 @@ body{
         margin-top: 0px;
     }
 }
-
 
 #logo{
     color: white;
@@ -71,269 +65,64 @@ body{
     color: white;
 }
 
-.logoBox{
-    height: 5px;
-    width: 5px;
-    margin-top: 5px;
-    background-color: lightgoldenrodyellow;
-    box-sizing:border-box;
-}
-
-
-
-.hideForm{
-    height: 80%;
-    width: 50%;
-    background-color: rgb(26, 58, 26);
-    z-index: 1;
-    margin-top: 20px;
-    margin-left: 14%;
-    position: absolute;
-    border-radius: 25px 25px 25px 25px;
-    box-shadow: 0 10px 20px rgba(0,0,0,1.59), 0 6px 6px rgba(0,0,0,0.23);
-    /* animation: fadeEffect .5s; */
-    border: groove;
-    border-color: rgb(27, 82, 11);
-    display: flex;
-    flex-direction: column;
-    animation: fadeOutEffect 1s;
-    visibility: hidden;
-}
-/* 
-@keyframes fadeOutEffect{
-    0%{
-        opacity: 1;
-        visibility:visible;
-    }
-
-    100%{
-        opacity: .1;
-        visibility: visible;
-    }
-} */
-
-
-.newForm{
-    height: 80%;
-    width: 50%;
-    background-color: rgb(26, 58, 26);
-    z-index: 1;
-    margin-top: 20px;
-    margin-left: 14%;
-    position: absolute;
-    border-radius: 25px 25px 25px 25px;
-    box-shadow: 0 10px 20px rgba(0,0,0,1.59), 0 6px 6px rgba(0,0,0,0.23);
-    animation: fadeInEffect .5s;
-    border: groove;
-    border-color: rgb(27, 82, 11);
-    display: flex;
-    flex-direction: column;
-    
-}
-
-.newTaskForm{
-    height: 100%;
-    width: 50%;
-    background-color: rgb(26, 58, 26);
-    z-index: 1;
-    /* margin-top: 0px !important; */
-    margin-left: 14%;
-    position: absolute;
-    border-radius: 25px 25px 25px 25px;
-    box-shadow: 0 10px 20px rgba(0,0,0,1.59), 0 6px 6px rgba(0,0,0,0.23);
-    animation: fadeInEffect .5s;
-    border: groove;
-    border-color: rgb(27, 82, 11);
-    display: flex;
-    flex-direction: column;
-    
-}
-
-@keyframes fadeInEffect{
-    0%{
-        opacity: .1;
-    }
-
-    100%{
-        opacity: 1;
-    }
-}
-
-.formItem{
-    width: 80%;
-    height: fit-content;
-    margin-left: 10%;
-    margin-top: 5px;
-}
-
-#addProjectButton{
-    /* position: relative;
-    float: right;
-    bottom: 0%; */
-}
-
 #mainContent{
-    margin-top: 45px;
-    height: 100vh;
-    width: 100%;
-    display: flex;
-    flex-direction: row;
-    /* box-sizing:border-box; */
-    position:fixed; /* reason page won't scroll down will need to be fixed */
-    animation: fadeIn .5s;
-}
-
-#sideBar{
-    height: 100%;
-    width: 20%;
-    background-color: rgb(36, 80, 36);
-    color: white;
-    border-right: solid;
-    border-top: solid;
-    border-color: black;
-}
-
-#sideBarInfo{
-    color: white;
-    font-size: 150%;
-    margin-top: 5px;
-    width: 50%;
-    margin-left: 25%;
-    text-align: center;
-}
-
-#createNewProject{
-    /* float: right; */
-    width: fit-content;
-    margin-top: 5px;
-    margin-left: 10px;
-    transition: all 0.3s ease-in-out 0s; 
-}
-
-#createNewProject:hover {
-    scale: 125%;
-    transform: rotate(180deg);
-  }
-
-.sideBarProjectList{
-    color: white;
-    font-size: 100%;
-    cursor: pointer;
-    text-decoration: underline;
-    margin-top: 5px !important;
-    width: 60%;
     margin: auto;
-}
-
-#projectDisplay{
-    border-top: solid;
-    height: 100%;
-    width: 80%;
-    background-color: rgb(255, 255, 223);
-    z-index: -1;
-    position: relative;
-}
-
-#currentProjectTitle{
-    font-size: 200%; 
-    text-align: center;
-    width: 50%;
-    text-decoration: underline;
-    margin-left: 14%;
-    height: fit-content;
-    z-index: 0;
-    position: relative;
-}
-
-#projectContent{
-    margin-left: 14%;
-    min-height: 300px;
-    width: 50%;
-    background-color: rgb(36, 80, 36);
-    color: white;
-    /* margin: auto; */
-    border-radius: 25px 25px 25px 25px;
-    text-align: center;
-    max-height: fit-content;
-    z-index: -1;
-    position: absolute;
-}
-
-/* style for each task, bullet, due date and priority container */
-.taskContainer{
-    margin-top: 5px !important;
-    margin-bottom: 5px !important;
-    width: 90%;
-    height: fit-content;
-    /* cursor: pointer; */
-    margin-left: 5%;
-    display: flex;
-    flex-direction: row;
-    /* border: 1px solid rgb(255, 255, 255); */
-}
-
-.date{
-    width: 280px;
-    height: 20px;
-    background-color: rgb(36, 80, 36, .0);
-    border: none;
-    cursor: pointer;
-    color: white;
-}
-
-#createNewTask{
-    cursor: pointer;
-    margin-left: 35%;
-}
-
-.taskTextContainer{
-    width: 90%;
-    height: fit-content;
-    /* cursor: pointer; */
-    margin-left: 6px !important;
-    text-align: left;
-}
-
-#dividerContainer{
-    width: 100%;
-    display: flex;
-    flex-direction: row;
-}
-
-.dividers{
-    width: 30%;
-    height: 1px;
-    color: black;
-}
-
-#finishedTaskCount{
-    width: 160px;
-}
-
-#priorityText{
-    font-size: 80%;
-    height: fit-content;
-}
-
-select{
-    background-color: rgb(36, 80, 36, .0);
-    color: white;
-    border: none;
-    margin-left: 3px;
     height: 80%;
-    margin-top: -3px;
-    cursor: pointer;
+    width: 80%;
+    display: flex;
+    flex-direction: row;
 }
 
-.cursor{
- cursor: pointer;   
-} 
-
-.taskChecked{
-    text-decoration: line-through;
-    color: grey
+.postItNotes{
+    background-color: rgb(0, 140, 255);
+    color: white;
+    height: fit-content;
+    width: fit-content;
+    padding: 10px 10px 10px 10px;
+    margin: 20px 20px 20px 20px;
+    box-shadow:  5px 5px 5px rgb(0, 0, 0, 0.5);
+    border: 1px solid black;
+    /* animation: fadeInNotes 4s; */
 }
 
-.deleteTask{
-    
+@keyframes fadeInNotes {
+    0%{
+        opacity: .0;
+    }
+
+    50%{
+        opacity: .02
+    }
+
+    100%{
+       opacity: 1;
+    }
+}
+
+.nameOfToDoList{
+    font-size: 30px;
+    width: fit-content;
+    height: fit-content;
+    margin-bottom: 10px;
+}
+
+@media (max-width: 576px) { 
+
+    .nameOfToDoList{
+        width: 80%;
+        font-size: 15px;
+
+   }
+}
+
+.task{
+    height: fit-content;
+    width: fit-content;
+    display: flex;
+    flex-direction: row;
+}
+
+.taskText{
+    margin-left: 5px;
+    margin-right: 5px;
 }

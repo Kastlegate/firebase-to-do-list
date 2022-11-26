@@ -3,10 +3,50 @@ import './all.css';
 import { getAllProjectsArray, addProject, setallProjects, } from './toDoFunctions.js';
 import { addProjectsToSideBar, addTasksToCurrentProject, newProjectFormActivate, 
     newProjectFormDeactivate, newTaskFormActivate, newTaskFormDeactivate, addNewTaskButtonClicked, 
-    addProjectButtonClicked, addnewProjectCancelClicked } from './toDoListDom.js';
+    addProjectButtonClicked, addnewProjectCancelClicked, createToDoListPostItNotes } from './toDoListDom.js';
 import { compareAsc, format } from 'date-fns'
+// Import the functions you need from the SDKs you need
+import { initializeApp } from "firebase/app";
+import {
+    getFirestore,
+    collection,
+    addDoc,
+    query,
+    orderBy,
+    limit,
+    onSnapshot,
+    setDoc,
+    updateDoc,
+    doc,
+    serverTimestamp,
+  } from 'firebase/firestore';
 
 
+// Your web app's Firebase configuration
+
+const firebaseConfig = {
+
+    apiKey: "AIzaSyBc-taz8_wmgxYCiKwPvEJjQBnTKaZS2Gw",
+  
+    authDomain: "todolist-e6835.firebaseapp.com",
+  
+    projectId: "todolist-e6835",
+  
+    storageBucket: "todolist-e6835.appspot.com",
+  
+    messagingSenderId: "140539767501",
+  
+    appId: "1:140539767501:web:1d1522719dcde72f731784"
+  
+  };
+  
+  
+  // Initialize Firebase
+  
+  const app = initializeApp(firebaseConfig);
+
+
+  
 
 // creates the header
 let header = document.createElement("header");
@@ -55,45 +95,45 @@ let mainContent = document.createElement("div");
     mainContent.id = "mainContent";
     document.body.appendChild(mainContent);
 // navigation sidebar
-let sideBar = document.createElement("div");
-    sideBar.id = "sideBar";
-    mainContent.appendChild(sideBar);
-    let sideBarInfo = document.createElement("div");
-    sideBarInfo.id = "sideBarInfo"
-    sideBarInfo.textContent = "To Do";
-    sideBar.appendChild(sideBarInfo);
+// let sideBar = document.createElement("div");
+//     sideBar.id = "sideBar";
+//     mainContent.appendChild(sideBar);
+//     let sideBarInfo = document.createElement("div");
+//     sideBarInfo.id = "sideBarInfo"
+//     sideBarInfo.textContent = "To Do";
+//     sideBar.appendChild(sideBarInfo);
 
     let createNewProject = document.createElement("div");
     createNewProject.id = "createNewProject";
     createNewProject.title = "Create New To Do List"
     createNewProject.className = "fas fa-plus-circle"
     createNewProject.addEventListener("click", createNewProjectButtonPressed)
-    sideBarInfo.appendChild(createNewProject);
+    // sideBarInfo.appendChild(createNewProject);
 
 //Used in sidebar to display a list of all projects
-let projectListContainer = document.createElement("div");
-    projectListContainer.id = "projectListContainer";
-    sideBar.appendChild(projectListContainer);
+// let projectListContainer = document.createElement("div");
+//     projectListContainer.id = "projectListContainer";
+//     sideBar.appendChild(projectListContainer);
 // current project display
-let projectDisplay = document.createElement("div");
-    projectDisplay.id = "projectDisplay";
-    mainContent.appendChild(projectDisplay);
+// let projectDisplay = document.createElement("div");
+//     projectDisplay.id = "projectDisplay";
+//     mainContent.appendChild(projectDisplay);
 // title for the current project
-let currentProjectTitle = document.createElement("h1");
-    currentProjectTitle.id = "currentProjectTitle";
-    currentProjectTitle.textContent = "Select a To Do List to begin";
-    projectDisplay.appendChild(currentProjectTitle);
-// content for the current project
-let projectContent = document.createElement("div");
-    projectContent.id = "projectContent";
-    projectDisplay.appendChild(projectContent);
+// let currentProjectTitle = document.createElement("h1");
+//     currentProjectTitle.id = "currentProjectTitle";
+//     currentProjectTitle.textContent = "Select a To Do List to begin";
+//     projectDisplay.appendChild(currentProjectTitle);
+// // content for the current project
+// let projectContent = document.createElement("div");
+//     projectContent.id = "projectContent";
+//     projectDisplay.appendChild(projectContent);
     
 // creates the new Project Form
 let newProjectForm = document.createElement("form");
     newProjectForm.id = "newProjectForm";
     newProjectForm.setAttribute("onsubmit", "return false")
     newProjectForm.classList.add("hideForm");
-    projectDisplay.insertBefore(newProjectForm, currentProjectTitle);
+    // projectDisplay.insertBefore(newProjectForm, currentProjectTitle);
 
  //Gets the project name
 let title = document.createElement("input");
@@ -136,7 +176,7 @@ let newTaskForm = document.createElement("form");
     newTaskForm.classList.add("hideForm");
     newTaskForm.setAttribute("onsubmit", "return false")
     // newProjectForm.classList.add("hideNewProjectForm");
-    projectDisplay.insertBefore(newTaskForm, projectContent);
+    // projectDisplay.insertBefore(newTaskForm, projectContent);
 
     //Gets the new task
     let newTask = document.createElement("input");
@@ -166,12 +206,12 @@ if (localStorage.getItem('projects'))
     let projectsArray = JSON.parse(window.localStorage.getItem('projects'));
     console.log(projectsArray)
     setallProjects(projectsArray)
-    addProjectsToSideBar(getAllProjectsArray());
+    createToDoListPostItNotes(getAllProjectsArray);
 }
 
 else{
     console.log("storage is not present")
-    addProjectsToSideBar(getAllProjectsArray());
+    createToDoListPostItNotes(getAllProjectsArray);
 }
 
 
