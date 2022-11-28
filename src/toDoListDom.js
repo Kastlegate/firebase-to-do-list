@@ -36,37 +36,37 @@ function newTaskFormDeactivate(){
     document.getElementById("newTask").value = ""; 
 }
 
-//function to be called when a project from the list in the sidebar is clicked
-function sideBarProjectClicked(){
-    let titleArray = getAllProjectsArray();    
-    let projectContent = document.getElementById("projectContent");
-    let currentProjectTitle = document.getElementById("currentProjectTitle");
-    let index = this.getAttribute("data-sideBarid");
-    currentProjectTitle.textContent = getIndividualProject(index).title;
-    addTasksToCurrentProject(index);
-}
+// //function to be called when a project from the list in the sidebar is clicked
+// function sideBarProjectClicked(){
+//     let titleArray = getAllProjectsArray();    
+//     let projectContent = document.getElementById("projectContent");
+//     let currentProjectTitle = document.getElementById("currentProjectTitle");
+//     let index = this.getAttribute("data-sideBarid");
+//     currentProjectTitle.textContent = getIndividualProject(index).title;
+//     addTasksToCurrentProject(index);
+// }
 
 //adds each Project title to the sidebar
-function addProjectsToSideBar(thisArray){
-    let projectsList = document.getElementById("projectListContainer");
-    let array = thisArray;
-    projectsList.textContent = "";
-    array.forEach(element => {
-        //current total of active tasks in a project
-        let amountOfTasksInProject = element.tasksArray.length;
+// function addProjectsToSideBar(thisArray){
+//     let projectsList = document.getElementById("projectListContainer");
+//     let array = thisArray;
+//     projectsList.textContent = "";
+//     array.forEach(element => {
+//         //current total of active tasks in a project
+//         let amountOfTasksInProject = element.tasksArray.length;
         
-        let projectToBeAddedToList = document.createElement("div");
-        projectToBeAddedToList.id = "project: " + array.indexOf(element);
-        projectToBeAddedToList.dataset.sidebarid = array.indexOf(element);
-        projectToBeAddedToList.classList.add("sideBarProjectList")
-        projectToBeAddedToList.textContent = element.title + ": (" + amountOfTasksInProject + ")";
-        let taskTotal = document.createElement("div")
-        taskTotal.textContent = 
-        projectToBeAddedToList.addEventListener("click", sideBarProjectClicked)
-        projectsList.appendChild(projectToBeAddedToList);        
-    });
+//         let projectToBeAddedToList = document.createElement("div");
+//         projectToBeAddedToList.id = "project: " + array.indexOf(element);
+//         projectToBeAddedToList.dataset.sidebarid = array.indexOf(element);
+//         projectToBeAddedToList.classList.add("sideBarProjectList")
+//         projectToBeAddedToList.textContent = element.title + ": (" + amountOfTasksInProject + ")";
+//         let taskTotal = document.createElement("div")
+//         taskTotal.textContent = 
+//         projectToBeAddedToList.addEventListener("click", sideBarProjectClicked)
+//         projectsList.appendChild(projectToBeAddedToList);        
+//     });
     
-}
+// }
 
 // funtion to add the current form as a new To Do List project
 function addProjectButtonClicked(){
@@ -94,8 +94,6 @@ function addNewTaskButtonClicked(){
     let index = this.getAttribute("data-add-task-id");
     let newTask = document.getElementById("newTask").value;
     addTask(getIndividualProject(index), newTask);
-    console.log(index);
-    console.log(getIndividualProject(index) + " fail")
     newTaskFormDeactivate();
     addTasksToCurrentProject(index);
     document.getElementById("newTask").value = "";
@@ -121,35 +119,27 @@ function activeTaskInListClicked(){
     // uses the data-task-id to get the current task inside the array
     let index = this.getAttribute("data-task-id")
     let checkMarkedTask = getIndividualProject(array).tasksArray[index];
-    console.log("task array? " + getIndividualProject(array).tasksArray[index])
-    console.log("just array " + getIndividualProject(array))
-    console.log(checkMarkedTask)
     removeTask(getIndividualProject(array), checkMarkedTask.tasks, checkMarkedTask.priority, checkMarkedTask.dueDate);
-    console.log("task added to finishedTasksArray: " + getIndividualProject(array).finishedTasksArray);
 
     // removes the task from the array and populates the tasks on screen
     if (index > -1) {
         getIndividualProject(array).tasksArray.splice(index, 1);}
-        addTasksToCurrentProject(array);
-        addProjectsToSideBar(getAllProjectsArray());
+    createToDoListPostItNotes()
 }
 
 // reinserts an item from the finished tasks back into active tasks
 function inactiveTaskInListClicked(){
     // uses the data-array-id to get the current object's finishedTaskArray;
-    let array = this.getAttribute("data-finsihed-array-id")
+    let array = this.getAttribute("data-finished-array-id")
     // uses the data-task-id to get the current task inside the array
-    let index = this.getAttribute("data-checkmarked-task-id")
+    let index = this.getAttribute("data-check-marked-task-id")
     let checkMarkedTask = getIndividualProject(array).finishedTasksArray[index];
-    addTask(getIndividualProject(array), checkMarkedTask.tasks, checkMarkedTask.priority, checkMarkedTask.dueDate);
-    // getIndividualProject(array).addTask(checkMarkedTask);
-    console.log("task added to TasksArray: " + getIndividualProject(array).finishedTasksArray);
 
     // removes the task from the array and repopulates the tasks on screen
     if (index > -1) {
         getIndividualProject(array).finishedTasksArray.splice(index, 1);}
-        addTasksToCurrentProject(array);
-        addProjectsToSideBar(getAllProjectsArray());
+        addTask(getIndividualProject(array), checkMarkedTask.tasks, checkMarkedTask.priority, checkMarkedTask.dueDate);
+        createToDoListPostItNotes()
 }
 
 // listener for the delete task button
@@ -158,7 +148,6 @@ function deleteTaskClicked() {
     let array = this.getAttribute("data-delete-Finsihed-array-id")
     // uses the data-task-id to get the current task inside the array
     let index = this.getAttribute("data-delete-task-id")
-    console.log("deleted task: " + getIndividualProject(array).finishedTasksArray);
 
     // removes the task from the array 
     if (index > -1) {
@@ -173,26 +162,20 @@ function menuSelection(){
     let array =  this.getAttribute("data-select-priority-array-id");
     let select = this.getAttribute("id");
 
-    console.log(getIndividualProject(array).tasksArray[index].priority);
-
     switch (select) {
         case "priority-Low":
             getIndividualProject(array).tasksArray[index].priority = 1;
-            console.log("1 pushed")
             break;
 
         case "priority-Medium":
             getIndividualProject(array).tasksArray[index].priority = 2;
-            console.log("2 pushed")
             break;
 
         case "priority-High":
             getIndividualProject(array).tasksArray[index].priority = 3;
-            console.log("3 pushed")
             break;
     }
     addTasksToCurrentProject(array);
-    console.log(getIndividualProject(array).tasksArray[index].priority);
 }
 
 function dateSelected(){
@@ -200,9 +183,6 @@ function dateSelected(){
     let array =  this.getAttribute("data-due-date-array");
     let date = document.getElementById("Task " + index + ": DueDate")
     getIndividualProject(array).tasksArray[index].dueDate = date.value;
-    console.log("due date? " + getIndividualProject(array).tasksArray[index].dueDate)
-    console.log("array " + getIndividualProject(array).tasksArray.title)
-    // console.log("index " + getIndividualProject(array).tasksArray[index])
     saveLists();
 }
 
@@ -213,7 +193,6 @@ function addTasksToCurrentProject(i){
     
     let array = getIndividualProject(i)
     let index = i;
-    console.log(array);
     let projectContent = document.getElementById("projectContent");
     //erases tasks that are displayed in the project content
     projectContent.textContent = "";
@@ -324,7 +303,6 @@ function addTasksToCurrentProject(i){
         activeContainer.appendChild(date);
 
         // element.dueDate = date.value;
-         console.log("due date? " + element.dueDate)
 
         // let dueDate = new Date()
 
@@ -373,24 +351,51 @@ function addTasksToCurrentProject(i){
 
 }
 
-function createToDoListPostItNotes(i){
+function taskTextClicked(e){
+
+    // uses the data-array-id to get the current object's taskArray;
+    let array = this.getAttribute("data-task-text-array-id")
+    // uses the data-task-id to get the current task inside the array
+    let index = this.getAttribute("data-task-text-id")
+    // console.log(getAllProjectsArray(array).tasksArray[index])
+    // e.value = e.value;
+    this.textContent = this.value;
+    console.log(this.textContent)
+    getIndividualProject(array).tasksArray[index].tasks = this.textContent;
+    createToDoListPostItNotes()
+
+
+}
+
+function createToDoListPostItNotes(){
 
     let array = getAllProjectsArray();
     let mainContent = document.getElementById("mainContent")
-    console.log("Here are all the projects in the Array");
-    console.log(array)
+    mainContent.textContent = "";
+    let index = 0;
+    // let currentProject = getIndividualProject(index);
 
     //for each loop to go through each to lod list element in the array and add it to the dom
     array.forEach(element => {
-        
         //creation of a post it note div
         let postItNote = document.createElement("div");
-        postItNote.classList.add("postItNotes")
-            //Gets the name of the current to do list and creates a div for it and adds it to the post it note
-            let nameOfToDoList = document.createElement("div");
+            postItNote.classList.add("postItNotes")
+            
+        //Gets the name of the current to do list and creates a div for it and adds it to the post it note
+        let nameOfToDoList = document.createElement("div");
             nameOfToDoList.classList.add("nameOfToDoList")
             nameOfToDoList.textContent = element.title;
             postItNote.appendChild(nameOfToDoList)
+
+        // creates the new task button
+        let createNewTask = document.createElement("div");
+        createNewTask.id = "createNewTask";
+        createNewTask.dataset.createNewTaskid = index;
+        createNewTask.textContent = "+"
+        createNewTask.classList.add("cursor");
+        createNewTask.addEventListener("click", createNewTaskClicked)
+        postItNote.appendChild(createNewTask);
+
         //adds the new post it note to the main content of the page
         mainContent.appendChild(postItNote);
         
@@ -399,34 +404,73 @@ function createToDoListPostItNotes(i){
 
             //creating a div to hold each active task on each loop
             let task = document.createElement("div")
-            task.classList.add("task")
+                task.classList.add("task")           
+                
+
+            //creates an un-checkmarked box
+            let notCheckedMarkedBox = document.createElement("div");        
+                notCheckedMarkedBox.className = "far fa-square";
+                notCheckedMarkedBox.classList.add("cursor")
+                notCheckedMarkedBox.addEventListener("click", activeTaskInListClicked)
+                notCheckedMarkedBox.dataset.taskId = getIndividualProject(index).tasksArray.indexOf(element);
+                notCheckedMarkedBox.dataset.arrayId = index;
+                task.appendChild(notCheckedMarkedBox);
+
+            // creates a div and adds the text for the current task
+            let taskText = document.createElement("input");
+                taskText.setAttribute("type", "text");
+                taskText.classList.add("taskText");
+                taskText.setAttribute("value", element.tasks)
+                taskText.dataset.taskTextId = getIndividualProject(index).tasksArray.indexOf(element);
+                taskText.dataset.taskTextArrayId = index;
+                // taskText.textContent = element.tasks;
+                taskText.addEventListener("change", taskTextClicked)
+                task.appendChild(taskText);
+            
+            postItNote.appendChild(task)
+
+
+
+        });
+        
+        //creates a divider between the tasks that are finished and unfinished if there are finished tasks in the to do list
+        let divider = document.createElement("div");
+            divider.classList.add("divider")
+
+        if (element.finishedTasksArray.length > 0 && element.tasksArray.length > 0){
+            postItNote.appendChild(divider)
+        }
+    
+    
+        //creates a list in the post it note populated with the finished tasks
+        element.finishedTasksArray.forEach(element => {
+
+            //creating a div to hold each active task on each loop
+            let finishedTask = document.createElement("div")
+            finishedTask.classList.add("finishedTask")
 
         //creates an un-checkmarked box
-        let notCheckedMarkedBox = document.createElement("div");        
-            notCheckedMarkedBox.className = "far fa-square";
-            notCheckedMarkedBox.classList.add("cursor")
-            notCheckedMarkedBox.addEventListener("click", activeTaskInListClicked)
-            // notCheckedMarkedBox.dataset.taskId = indexOf(element);
-            // notCheckedMarkedBox.dataset.arrayId = index;
-            task.appendChild(notCheckedMarkedBox);
+        let checkedMarkedBox = document.createElement("div");
+            checkedMarkedBox.className = "far fa-check-square";
+            checkedMarkedBox.classList.add("cursor")
+            checkedMarkedBox.dataset.checkMarkedTaskId = getIndividualProject(index).finishedTasksArray.indexOf(element);
+            checkedMarkedBox.dataset.finishedArrayId = index;
+            checkedMarkedBox.addEventListener("click", inactiveTaskInListClicked)
+            finishedTask.appendChild(checkedMarkedBox);
 
         // creates a div and adds the text for the current task
-        let taskText = document.createElement("div");
-            taskText.classList.add("taskText");
-            taskText.textContent = element.tasks;
-            task.appendChild(taskText);
-
-        postItNote.appendChild(task)
+        let finishedTaskText = document.createElement("div");
+            finishedTaskText.classList.add("finishedTaskText")
+            finishedTaskText.textContent = element.tasks;
+            finishedTask.appendChild(finishedTaskText);
+        postItNote.appendChild(finishedTask)    
         });
-
+        ++index
     });
-
 
 
 }
 
 
-
-
-export { addProjectsToSideBar, addTasksToCurrentProject, newProjectFormActivate, newProjectFormDeactivate, newTaskFormActivate,
+export { addTasksToCurrentProject, newProjectFormActivate, newProjectFormDeactivate, newTaskFormActivate,
     newTaskFormDeactivate, addNewTaskButtonClicked, addProjectButtonClicked, addnewProjectCancelClicked, createToDoListPostItNotes }
