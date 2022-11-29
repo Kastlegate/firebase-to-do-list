@@ -249,8 +249,8 @@ if (storageAvailable('localStorage')) {
     console.log("Local storage is not available");
   }
 
-  localStorage.setItem('projects', JSON.stringify(getAllProjectsArray()))
-//   localStorage.removeItem('projects', JSON.stringify(getAllProjectsArray()))
+//   localStorage.setItem('projects', JSON.stringify(getAllProjectsArray()))
+  localStorage.removeItem('projects', JSON.stringify(getAllProjectsArray()))
   
 
 

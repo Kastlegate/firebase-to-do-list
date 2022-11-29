@@ -75,7 +75,7 @@ body{
     background-color: rgb(0, 140, 255);
     color: white;
     height: fit-content;
-    width: fit-content;
+    width: 30%;
     padding: 10px 10px 10px 10px;
     margin: 20px 20px 20px 20px;
     box-shadow:  5px 5px 5px rgb(0, 0, 0, 0.5);
@@ -111,17 +111,53 @@ body{
     flex-direction: row;
 }
 
-.taskText{
-    all: unset;
+.textAreaContainer{
     height: fit-content;
     width: fit-content;
+    display: grid;
+    margin-bottom: 10px;
+}
+
+.textAreaContainer, .textAreaTwin{
+    grid-column: 1;
+    grid-row: 1;
+  }
+
+.textAreaTwin{
+    height: 100%;
+    width: 100%;
+    margin-left: 5px;
+    margin-right: 5px;
+    background-color: rgb(0, 140, 255);
+    color: white;
+    /* visibility: hidden; */
+    /* z-index: -1;
+    position: relative; */
+    grid-column: 1;
+    grid-row: 1;
+}
+
+.taskTextArea{
+    all: unset;
+    height: 100%;
+    width: 100%;
     margin-left: 5px;
     margin-right: 5px;
     background-color: rgb(0, 140, 255);
     color: white;
     border: none;
-   
+    /* z-index: 2;
+    position: relative; */
+    grid-column: 1;
+    grid-row: 1;
+    /* visibility: hidden; */
+    
 }
+
+/* .textarea {
+    resize: auto;
+    overflow: hidden;
+} */
 
 .finishedTask{
     display: flex;

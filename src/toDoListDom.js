@@ -367,12 +367,21 @@ function taskTextClicked(e){
 
 }
 
+
+
+
+
 function createToDoListPostItNotes(){
 
     let array = getAllProjectsArray();
     let mainContent = document.getElementById("mainContent")
     mainContent.textContent = "";
     let index = 0;
+
+    const growers = document.querySelectorAll(".grow-wrap");
+
+
+
     // let currentProject = getIndividualProject(index);
 
     //for each loop to go through each to lod list element in the array and add it to the dom
@@ -417,15 +426,24 @@ function createToDoListPostItNotes(){
                 task.appendChild(notCheckedMarkedBox);
 
             // creates a div and adds the text for the current task
-            let taskText = document.createElement("input");
-                taskText.setAttribute("type", "text");
-                taskText.classList.add("taskText");
-                taskText.setAttribute("value", element.tasks)
-                taskText.dataset.taskTextId = getIndividualProject(index).tasksArray.indexOf(element);
-                taskText.dataset.taskTextArrayId = index;
-                // taskText.textContent = element.tasks;
-                taskText.addEventListener("change", taskTextClicked)
-                task.appendChild(taskText);
+            let textAreaContainer = document.createElement("div")
+                textAreaContainer.classList.add("textAreaContainer")
+                task.appendChild(textAreaContainer)
+
+            let textAreaTwin = document.createElement("div")
+                textAreaTwin.classList.add("textAreaTwin")
+                textAreaTwin.textContent = element.tasks;
+                textAreaContainer.appendChild(textAreaTwin)
+
+            let taskTextArea = document.createElement("textArea");
+                // taskText.setAttribute("type", "text");
+                taskTextArea.classList.add("taskTextArea");
+                taskTextArea.setAttribute("value", element.tasks)
+                taskTextArea.dataset.taskTextId = getIndividualProject(index).tasksArray.indexOf(element);
+                taskTextArea.dataset.taskTextArrayId = index;
+                taskTextArea.textContent = element.tasks;
+                taskTextArea.addEventListener("change", taskTextClicked)
+                textAreaContainer.appendChild(taskTextArea);
             
             postItNote.appendChild(task)
 
@@ -465,7 +483,17 @@ function createToDoListPostItNotes(){
             finishedTask.appendChild(finishedTaskText);
         postItNote.appendChild(finishedTask)    
         });
+        // increases the index for the listeners to know which array is needed
         ++index
+
+        //
+        growers.forEach((grower) => {
+            const textarea = grower.querySelector("textarea");
+            textarea.addEventListener("input", () => {
+              grower.dataset.replicatedValue = textarea.value;
+            });
+          });
+
     });
 
 
