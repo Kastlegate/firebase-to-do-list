@@ -55,7 +55,7 @@ function removeTask(array, tasks, priority, dueDate){
     array.finishedTasksArray.push(tasky);
 }
 
-let defaultProjectOne = projectFactory("Mow The Lawn", "Charge the battery elrihv efb mer g eh et hr qe trh the end", 3);
+let defaultProjectOne = projectFactory("Mow The Lawn", "Charge the battery", 3);
 let defaultProjectTwo = projectFactory("Get stuff for Tacos", "Hamburger", 2);
 
 let allProjects = new Array();

@@ -23,9 +23,10 @@ function newProjectFormDeactivate(){
 
 // unhides the New Task project form
 function newTaskFormActivate(){
-    let form = document.getElementById("newTaskForm");
-    form.className = "";    
+    let newTask = document.createElement("form");
+    // form.className = "";    
     newTaskForm.classList.add("newTaskForm")
+
 }
 
 // hides the New Task form 
@@ -152,8 +153,7 @@ function deleteTaskClicked() {
     // removes the task from the array 
     if (index > -1) {
         getIndividualProject(array).finishedTasksArray.splice(index, 1);}
-
-        addTasksToCurrentProject(array);
+        createToDoListPostItNotes()
 
 }
 //function that sets the task's priority
@@ -367,7 +367,18 @@ function taskTextClicked(e){
 
 }
 
+// function that creates a new task and adds it when the button is pressed
+function createTask(e){
 
+   // uses the data-array-id to get the current object's taskArray;
+   let array = this.getAttribute("data-create-new-task-array")
+   // uses the data-task-id to get the current task inside the array
+   let index = this.getAttribute("data-create-new-taskid")
+   //creates a blank task that can be edited
+   addTask(getIndividualProject(index), "");
+   //refreshes the post it notes
+   createToDoListPostItNotes()
+}
 
 
 
@@ -377,12 +388,6 @@ function createToDoListPostItNotes(){
     let mainContent = document.getElementById("mainContent")
     mainContent.textContent = "";
     let index = 0;
-
-    const growers = document.querySelectorAll(".grow-wrap");
-
-
-
-    // let currentProject = getIndividualProject(index);
 
     //for each loop to go through each to lod list element in the array and add it to the dom
     array.forEach(element => {
@@ -399,10 +404,11 @@ function createToDoListPostItNotes(){
         // creates the new task button
         let createNewTask = document.createElement("div");
         createNewTask.id = "createNewTask";
+        // createNewTask.dataset.createNewTaskArray = array.indexOf(element);
         createNewTask.dataset.createNewTaskid = index;
         createNewTask.textContent = "+"
         createNewTask.classList.add("cursor");
-        createNewTask.addEventListener("click", createNewTaskClicked)
+        createNewTask.addEventListener("click", createTask)
         postItNote.appendChild(createNewTask);
 
         //adds the new post it note to the main content of the page
@@ -429,7 +435,7 @@ function createToDoListPostItNotes(){
             let textAreaContainer = document.createElement("div")
                 textAreaContainer.classList.add("textAreaContainer")
                 task.appendChild(textAreaContainer)
-
+            // a div that resizes the textAreaContainer
             let textAreaTwin = document.createElement("div")
                 textAreaTwin.classList.add("textAreaTwin")
                 textAreaTwin.textContent = element.tasks;
@@ -439,6 +445,7 @@ function createToDoListPostItNotes(){
                 // taskText.setAttribute("type", "text");
                 taskTextArea.classList.add("taskTextArea");
                 taskTextArea.setAttribute("value", element.tasks)
+                taskTextArea.setAttribute("rows", "1")
                 taskTextArea.dataset.taskTextId = getIndividualProject(index).tasksArray.indexOf(element);
                 taskTextArea.dataset.taskTextArrayId = index;
                 taskTextArea.textContent = element.tasks;
@@ -481,18 +488,25 @@ function createToDoListPostItNotes(){
             finishedTaskText.classList.add("finishedTaskText")
             finishedTaskText.textContent = element.tasks;
             finishedTask.appendChild(finishedTaskText);
+
+        //creates a delete button to remove a task permanently
+        let deleteTaskContainer = document.createElement("div")
+            deleteTaskContainer.classList.add("deleteTask")
+        let deleteTask = document.createElement("div")
+            deleteTask.className = "fas fa-trash-alt";
+            deleteTask.classList.add("cursor");
+            // deleteTask.classList.add("deleteTask");
+            deleteTask.dataset.deleteTaskId = getIndividualProject(index).finishedTasksArray.indexOf(element);
+            deleteTask.dataset.deleteFinsihedArrayId = index;
+            deleteTask.addEventListener("click", deleteTaskClicked)
+            deleteTaskContainer.appendChild(deleteTask)
+            finishedTask.appendChild(deleteTaskContainer);    
+
+
         postItNote.appendChild(finishedTask)    
         });
         // increases the index for the listeners to know which array is needed
         ++index
-
-        //
-        growers.forEach((grower) => {
-            const textarea = grower.querySelector("textarea");
-            textarea.addEventListener("input", () => {
-              grower.dataset.replicatedValue = textarea.value;
-            });
-          });
 
     });
 

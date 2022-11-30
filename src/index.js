@@ -176,7 +176,7 @@ let newTaskForm = document.createElement("form");
     newTaskForm.classList.add("hideForm");
     newTaskForm.setAttribute("onsubmit", "return false")
     // newProjectForm.classList.add("hideNewProjectForm");
-    // projectDisplay.insertBefore(newTaskForm, projectContent);
+    // projectDisplay.insertBefore(newTaskForm, mainContent);
 
     //Gets the new task
     let newTask = document.createElement("input");
