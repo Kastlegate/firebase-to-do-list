@@ -3,7 +3,7 @@ import './all.css';
 import { getAllProjectsArray, addProject, setallProjects, } from './toDoFunctions.js';
 import { addProjectsToSideBar, addTasksToCurrentProject, newProjectFormActivate, 
     newProjectFormDeactivate, newTaskFormActivate, newTaskFormDeactivate, addNewTaskButtonClicked, 
-    addProjectButtonClicked, addnewProjectCancelClicked, createToDoListPostItNotes } from './toDoListDom.js';
+    addProjectButtonClicked, addnewProjectCancelClicked, createToDoListPostItNotes, createNewProjectButtonPressed } from './toDoListDom.js';
 import { compareAsc, format } from 'date-fns'
 // Import the functions you need from the SDKs you need
 import { initializeApp } from "firebase/app";
@@ -66,12 +66,8 @@ let logo = document.createElement("div");
     //container for the logo boxes
 let logoBoxContainer = document.createElement("div")
     logoBoxContainer.id = "logoBoxContainer";
-    logoContainer.appendChild(logoBoxContainer)    
-// little boxes for the logo
-// let logoBoxOne = document.createElement("div");
-//     logoBoxOne.id = "logoBoxOne";
-//     logoBoxOne.className = "far fa-square";
-//     logoBoxContainer.appendChild(logoBoxOne);
+    logoContainer.appendChild(logoBoxContainer) 
+    
 let logoBoxTwo = document.createElement("div");
     logoBoxTwo.id = "logoBoxTwo";
     logoBoxTwo.className = "far fa-square";
@@ -82,18 +78,30 @@ let logoBoxThree = document.createElement("div");
     logoBoxContainer.appendChild(logoBoxThree);
 
 
-// function for the create new project button
-function createNewProjectButtonPressed(){
-    let defaultProject = getAllProjectsArray();
-    console.log(defaultProject);
-    newProjectFormActivate();
-}
 
+
+let createNewProject = document.createElement("div");
+createNewProject.id = "createNewProject";
+createNewProject.title = "Create New To Do List"
+createNewProject.className = "fas fa-plus-circle"
+createNewProject.addEventListener("click", createNewProjectButtonPressed)
+document.body.appendChild(createNewProject);
 
 // the main content of the page. A div that holds the navigation sidebar and the current project display
 let mainContent = document.createElement("div");
     mainContent.id = "mainContent";
     document.body.appendChild(mainContent);
+
+    let postItNoteContainerOne = document.createElement("div");
+    postItNoteContainerOne.classList.add("postItNotesContainer");
+    postItNoteContainerOne.id ="postItNoteContainerOne";
+    mainContent.appendChild(postItNoteContainerOne);
+
+let postItNoteContainerTwo = document.createElement("div");
+    postItNoteContainerTwo.classList.add("postItNotesContainer");
+    postItNoteContainerTwo.id="postItNoteContainerTwo"
+    mainContent.appendChild(postItNoteContainerTwo);
+
 // navigation sidebar
 // let sideBar = document.createElement("div");
 //     sideBar.id = "sideBar";
@@ -103,12 +111,7 @@ let mainContent = document.createElement("div");
 //     sideBarInfo.textContent = "To Do";
 //     sideBar.appendChild(sideBarInfo);
 
-    let createNewProject = document.createElement("div");
-    createNewProject.id = "createNewProject";
-    createNewProject.title = "Create New To Do List"
-    createNewProject.className = "fas fa-plus-circle"
-    createNewProject.addEventListener("click", createNewProjectButtonPressed)
-    // sideBarInfo.appendChild(createNewProject);
+
 
 //Used in sidebar to display a list of all projects
 // let projectListContainer = document.createElement("div");

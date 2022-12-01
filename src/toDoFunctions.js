@@ -76,8 +76,7 @@ function getIndividualProject(i){
 }
 
 function addProject(title, task, priority){
-    let newProject = projectFactory(document.getElementById("title").value, 
-    document.getElementById("firstTask").value, priority)
+    let newProject = projectFactory(title);
     allProjects.push(newProject);
 }
 

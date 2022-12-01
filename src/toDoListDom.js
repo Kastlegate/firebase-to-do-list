@@ -380,13 +380,24 @@ function createTask(e){
    createToDoListPostItNotes()
 }
 
+// function for the create new project button
+function createNewProjectButtonPressed(){
+    addProject("New List", "")
+    createToDoListPostItNotes()
+}
+
 
 
 function createToDoListPostItNotes(){
 
     let array = getAllProjectsArray();
+    let postItNoteContainerNumber = 1;
     let mainContent = document.getElementById("mainContent")
-    mainContent.textContent = "";
+    let postItNoteContainerOne = document.getElementById("postItNoteContainerOne")
+    let postItNoteContainerTwo = document.getElementById("postItNoteContainerTwo")
+    // mainContent.textContent = "";
+    postItNoteContainerOne.textContent = "";
+    postItNoteContainerTwo.textContent = "";
     let index = 0;
 
     //for each loop to go through each to lod list element in the array and add it to the dom
@@ -412,7 +423,15 @@ function createToDoListPostItNotes(){
         postItNote.appendChild(createNewTask);
 
         //adds the new post it note to the main content of the page
-        mainContent.appendChild(postItNote);
+        if(postItNoteContainerNumber === 1){
+            postItNoteContainerOne.appendChild(postItNote);
+            postItNoteContainerNumber = 2;
+        }
+        else if(postItNoteContainerNumber === 2){
+            postItNoteContainerTwo.appendChild(postItNote);
+            postItNoteContainerNumber = 1;
+        }
+        
         
         //creates a list in the post it note populated with the current active tasks
         element.tasksArray.forEach(element => {
@@ -515,4 +534,4 @@ function createToDoListPostItNotes(){
 
 
 export { addTasksToCurrentProject, newProjectFormActivate, newProjectFormDeactivate, newTaskFormActivate,
-    newTaskFormDeactivate, addNewTaskButtonClicked, addProjectButtonClicked, addnewProjectCancelClicked, createToDoListPostItNotes }
+    newTaskFormDeactivate, addNewTaskButtonClicked, addProjectButtonClicked, addnewProjectCancelClicked, createToDoListPostItNotes, createNewProjectButtonPressed }
