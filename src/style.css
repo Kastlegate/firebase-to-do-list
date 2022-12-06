@@ -77,6 +77,7 @@ body{
     margin: 10px auto auto auto;
     display: flex;
     flex-direction: column;
+     animation: fadeInNotes 3s;
 }
 
 .postItNotes{
@@ -88,7 +89,7 @@ body{
     margin: 20px 20px 20px 20px;
     box-shadow:  5px 5px 5px rgb(0, 0, 0, 0.5);
     border: 1px solid black;
-    /* animation: fadeInNotes 4s; */
+   
 }
 
 @keyframes fadeInNotes {
@@ -105,7 +106,7 @@ body{
     }
 }
 
-.nameOfToDoList{
+.titleAreaContainer{
     font-size: 30px;
     width: fit-content;
     height: fit-content;
@@ -119,6 +120,16 @@ body{
     flex-direction: row;
 }
 
+.titleAreaContainer{
+    font-size: 30px;
+    height: fit-content;
+    width: fit-content;
+    display: grid;
+    margin-bottom: 10px;
+}
+
+
+
 .textAreaContainer{
     height: fit-content;
     width: fit-content;
@@ -126,12 +137,7 @@ body{
     margin-bottom: 0px;
 }
 
-.textAreaContainer, .textAreaTwin{
-    grid-column: 1;
-    grid-row: 1;
-  }
-
-.textAreaTwin{
+.textAreaResizer{
     height: 100%;
     width: 100%;
     margin-left: 5px;
@@ -217,7 +223,7 @@ body{
 
 @media (max-width: 576px) {
 
-    .nameOfToDoList{
+    .titleAreaContainer{
         width: 80%;
         font-size: 15px;
 

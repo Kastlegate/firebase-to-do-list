@@ -357,11 +357,25 @@ function taskTextClicked(e){
     let array = this.getAttribute("data-task-text-array-id")
     // uses the data-task-id to get the current task inside the array
     let index = this.getAttribute("data-task-text-id")
-    // console.log(getAllProjectsArray(array).tasksArray[index])
-    // e.value = e.value;
+
+    //updates the textarea with the new text
     this.textContent = this.value;
-    console.log(this.textContent)
     getIndividualProject(array).tasksArray[index].tasks = this.textContent;
+    createToDoListPostItNotes()
+
+
+}
+
+function titleTextClicked(e){
+
+    // uses the data-array-id to get the current object's taskArray;
+    let array = this.getAttribute("data-title-text-id")
+    // uses the data-task-id to get the current task inside the array
+    let index = this.getAttribute("data-task-text-id")
+
+    //updates the textarea with the new text
+    this.textContent = this.value;
+    getIndividualProject(array).title = this.textContent;
     createToDoListPostItNotes()
 
 
@@ -405,12 +419,25 @@ function createToDoListPostItNotes(){
         //creation of a post it note div
         let postItNote = document.createElement("div");
             postItNote.classList.add("postItNotes")
-            
-        //Gets the name of the current to do list and creates a div for it and adds it to the post it note
-        let nameOfToDoList = document.createElement("div");
-            nameOfToDoList.classList.add("nameOfToDoList")
-            nameOfToDoList.textContent = element.title;
-            postItNote.appendChild(nameOfToDoList)
+
+            // div that will be used to resize the container and textarea 
+            let titleAreaContainer = document.createElement("div")
+            titleAreaContainer.classList.add("titleAreaContainer")
+            postItNote.appendChild(titleAreaContainer)
+                    // a div that resizes the textAreaContainer
+                    let titleAreaResizer = document.createElement("div")
+                    titleAreaResizer.classList.add("textAreaResizer")
+                    titleAreaResizer.textContent = element.title;
+                    titleAreaContainer.appendChild(titleAreaResizer)
+                // the editable text area
+                    let titleTextArea = document.createElement("textArea");
+                    titleTextArea.classList.add("taskTextArea");
+                    titleTextArea.setAttribute("value", element.title)
+                    titleTextArea.setAttribute("rows", "1")
+                    titleTextArea.dataset.titleTextId = index;
+                    titleTextArea.textContent = element.title;
+                    titleTextArea.addEventListener("change", titleTextClicked)
+                    titleAreaContainer.appendChild(titleTextArea);
 
         // creates the new task button
         let createNewTask = document.createElement("div");
@@ -450,16 +477,17 @@ function createToDoListPostItNotes(){
                 notCheckedMarkedBox.dataset.arrayId = index;
                 task.appendChild(notCheckedMarkedBox);
 
-            // creates a div and adds the text for the current task
+            // creates a div to hold the taskTextArea div and and another
+            // div that will be used to resize the container and textarea 
             let textAreaContainer = document.createElement("div")
                 textAreaContainer.classList.add("textAreaContainer")
                 task.appendChild(textAreaContainer)
             // a div that resizes the textAreaContainer
-            let textAreaTwin = document.createElement("div")
-                textAreaTwin.classList.add("textAreaTwin")
-                textAreaTwin.textContent = element.tasks;
-                textAreaContainer.appendChild(textAreaTwin)
-
+            let textAreaResizer = document.createElement("div")
+                textAreaResizer.classList.add("textAreaResizer")
+                textAreaResizer.textContent = element.tasks;
+                textAreaContainer.appendChild(textAreaResizer)
+            // the editable text area
             let taskTextArea = document.createElement("textArea");
                 // taskText.setAttribute("type", "text");
                 taskTextArea.classList.add("taskTextArea");
@@ -493,33 +521,33 @@ function createToDoListPostItNotes(){
             let finishedTask = document.createElement("div")
             finishedTask.classList.add("finishedTask")
 
-        //creates an un-checkmarked box
-        let checkedMarkedBox = document.createElement("div");
-            checkedMarkedBox.className = "far fa-check-square";
-            checkedMarkedBox.classList.add("cursor")
-            checkedMarkedBox.dataset.checkMarkedTaskId = getIndividualProject(index).finishedTasksArray.indexOf(element);
-            checkedMarkedBox.dataset.finishedArrayId = index;
-            checkedMarkedBox.addEventListener("click", inactiveTaskInListClicked)
-            finishedTask.appendChild(checkedMarkedBox);
+            //creates an un-checkmarked box
+            let checkedMarkedBox = document.createElement("div");
+                checkedMarkedBox.className = "far fa-check-square";
+                checkedMarkedBox.classList.add("cursor")
+                checkedMarkedBox.dataset.checkMarkedTaskId = getIndividualProject(index).finishedTasksArray.indexOf(element);
+                checkedMarkedBox.dataset.finishedArrayId = index;
+                checkedMarkedBox.addEventListener("click", inactiveTaskInListClicked)
+                finishedTask.appendChild(checkedMarkedBox);
 
-        // creates a div and adds the text for the current task
-        let finishedTaskText = document.createElement("div");
-            finishedTaskText.classList.add("finishedTaskText")
-            finishedTaskText.textContent = element.tasks;
-            finishedTask.appendChild(finishedTaskText);
+            // creates a div and adds the text for the current task
+            let finishedTaskText = document.createElement("div");
+                finishedTaskText.classList.add("finishedTaskText")
+                finishedTaskText.textContent = element.tasks;
+                finishedTask.appendChild(finishedTaskText);
 
-        //creates a delete button to remove a task permanently
-        let deleteTaskContainer = document.createElement("div")
-            deleteTaskContainer.classList.add("deleteTask")
-        let deleteTask = document.createElement("div")
-            deleteTask.className = "fas fa-trash-alt";
-            deleteTask.classList.add("cursor");
-            // deleteTask.classList.add("deleteTask");
-            deleteTask.dataset.deleteTaskId = getIndividualProject(index).finishedTasksArray.indexOf(element);
-            deleteTask.dataset.deleteFinsihedArrayId = index;
-            deleteTask.addEventListener("click", deleteTaskClicked)
-            deleteTaskContainer.appendChild(deleteTask)
-            finishedTask.appendChild(deleteTaskContainer);    
+            //creates a delete button to remove a task permanently
+            let deleteTaskContainer = document.createElement("div")
+                deleteTaskContainer.classList.add("deleteTask")
+            let deleteTask = document.createElement("div")
+                deleteTask.className = "fas fa-trash-alt";
+                deleteTask.classList.add("cursor");
+                // deleteTask.classList.add("deleteTask");
+                deleteTask.dataset.deleteTaskId = getIndividualProject(index).finishedTasksArray.indexOf(element);
+                deleteTask.dataset.deleteFinsihedArrayId = index;
+                deleteTask.addEventListener("click", deleteTaskClicked)
+                deleteTaskContainer.appendChild(deleteTask)
+                finishedTask.appendChild(deleteTaskContainer);    
 
 
         postItNote.appendChild(finishedTask)    
