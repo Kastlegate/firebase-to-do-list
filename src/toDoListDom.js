@@ -381,6 +381,19 @@ function titleTextClicked(e){
 
 }
 
+
+// listener for the delete post it note button
+function deletePostItNoteClicked(e) {
+    // uses the data-task-id to get the current task inside the array
+    let index = this.getAttribute("data-delete-list-id")
+
+    // removes the task from the array 
+    if (index > -1) {
+        getAllProjectsArray().splice(index, 1);}
+        createToDoListPostItNotes()
+
+}
+
 // function that creates a new task and adds it when the button is pressed
 function createTask(e){
 
@@ -396,8 +409,10 @@ function createTask(e){
 
 // function for the create new project button
 function createNewProjectButtonPressed(){
-    addProject("New List", "")
+    addProject("", "")
     createToDoListPostItNotes()
+    
+    console.log("projects length " + getAllProjectsArray.length)
 }
 
 
@@ -409,47 +424,70 @@ function createToDoListPostItNotes(){
     let mainContent = document.getElementById("mainContent")
     let postItNoteContainerOne = document.getElementById("postItNoteContainerOne")
     let postItNoteContainerTwo = document.getElementById("postItNoteContainerTwo")
-    // mainContent.textContent = "";
+    // these containers each house a column of to do lists that will sit beside each other
     postItNoteContainerOne.textContent = "";
     postItNoteContainerTwo.textContent = "";
+    // index adds a value for each post it note to be passed to listeners
     let index = 0;
 
-    //for each loop to go through each to lod list element in the array and add it to the dom
+    //for each loop to go through each to do list element in the array and add it to the dom
     array.forEach(element => {
         //creation of a post it note div
         let postItNote = document.createElement("div");
-            postItNote.classList.add("postItNotes")
+                postItNote.classList.add("postItNotes")
+                //trash can to delete the To Do List
+        
 
-            // div that will be used to resize the container and textarea 
-            let titleAreaContainer = document.createElement("div")
+
+        // div that will be used to resize the container and textarea 
+        let titleAreaContainer = document.createElement("div")
             titleAreaContainer.classList.add("titleAreaContainer")
-            postItNote.appendChild(titleAreaContainer)
-                    // a div that resizes the textAreaContainer
-                    let titleAreaResizer = document.createElement("div")
-                    titleAreaResizer.classList.add("textAreaResizer")
-                    titleAreaResizer.textContent = element.title;
-                    titleAreaContainer.appendChild(titleAreaResizer)
-                // the editable text area
-                    let titleTextArea = document.createElement("textArea");
-                    titleTextArea.classList.add("taskTextArea");
-                    titleTextArea.setAttribute("value", element.title)
-                    titleTextArea.setAttribute("rows", "1")
-                    titleTextArea.dataset.titleTextId = index;
-                    titleTextArea.textContent = element.title;
-                    titleTextArea.addEventListener("change", titleTextClicked)
-                    titleAreaContainer.appendChild(titleTextArea);
+        postItNote.appendChild(titleAreaContainer)
+        // a div that resizes the textAreaContainer
+        let titleAreaResizer = document.createElement("div")
+            titleAreaResizer.classList.add("textAreaResizer")
+            titleAreaResizer.textContent = element.title;
+            titleAreaContainer.appendChild(titleAreaResizer)
+        // the editable text area
+        let titleTextArea = document.createElement("textArea");
+            titleTextArea.classList.add("taskTextArea");
+            titleTextArea.setAttribute("value", element.title)
+            titleTextArea.setAttribute("rows", "1")
+            titleTextArea.setAttribute("placeholder", "New List")
+            titleTextArea.dataset.titleTextId = index;
+            titleTextArea.textContent = element.title;
+            titleTextArea.addEventListener("change", titleTextClicked)
+            titleAreaContainer.appendChild(titleTextArea);
+        
+        // container to house the add and delte buttons
+        let addAndDeleteContainer = document.createElement("div");
+        addAndDeleteContainer.classList.add("addAndDeleteContainer")
+        postItNote.appendChild(addAndDeleteContainer)
+
+
 
         // creates the new task button
         let createNewTask = document.createElement("div");
-        createNewTask.id = "createNewTask";
-        // createNewTask.dataset.createNewTaskArray = array.indexOf(element);
-        createNewTask.dataset.createNewTaskid = index;
-        createNewTask.textContent = "+"
-        createNewTask.classList.add("cursor");
-        createNewTask.addEventListener("click", createTask)
-        postItNote.appendChild(createNewTask);
+            createNewTask.id = "createNewTask";
+            // createNewTask.dataset.createNewTaskArray = array.indexOf(element);
+            createNewTask.dataset.createNewTaskid = index;
+            createNewTask.textContent = "+"
+            createNewTask.classList.add("cursor");
+            createNewTask.addEventListener("click", createTask)
+            addAndDeleteContainer.appendChild(createNewTask);
 
-        //adds the new post it note to the main content of the page
+        //creates a delete button to remove a task permanently
+        let deletePostItNoteContainer = document.createElement("div")
+            deletePostItNoteContainer.classList.add("deleteTask", "cursor", "shrinkDeleteButton")
+        let deletePostItNote = document.createElement("div")
+            deletePostItNote.className = "fas fa-trash-alt";
+            deletePostItNote.dataset.deleteListId = index;
+            deletePostItNote.dataset.deleteFinsihedArrayId = index;
+            deletePostItNote.addEventListener("click", deletePostItNoteClicked)
+            deletePostItNoteContainer.appendChild(deletePostItNote)
+            addAndDeleteContainer.appendChild(deletePostItNoteContainer);   
+
+        //if statement to assign notes to alternating columns
         if(postItNoteContainerNumber === 1){
             postItNoteContainerOne.appendChild(postItNote);
             postItNoteContainerNumber = 2;
@@ -493,6 +531,7 @@ function createToDoListPostItNotes(){
                 taskTextArea.classList.add("taskTextArea");
                 taskTextArea.setAttribute("value", element.tasks)
                 taskTextArea.setAttribute("rows", "1")
+                taskTextArea.setAttribute("placeholder", "New Task")
                 taskTextArea.dataset.taskTextId = getIndividualProject(index).tasksArray.indexOf(element);
                 taskTextArea.dataset.taskTextArrayId = index;
                 taskTextArea.textContent = element.tasks;

@@ -13,11 +13,11 @@ function projectFactory (title, tasks, priority, dueDate)
         return{tasks, priority, dueDate}
     }
     // creates a task with the fullTask function
-    let tasky = fullTask(tasks, priority, dueDate )
+    let newTask = fullTask(tasks, priority, dueDate )
 
     //an Array that holds each To do list's tasks
     let tasksArray = new Array();
-    tasksArray.push(tasky);
+    tasksArray.push(newTask);
     // an array that holds all finsished and checked tasks
     let finishedTasksArray = new Array();
 
@@ -35,9 +35,9 @@ function addTask(array, tasks, priority, dueDate){
         return{tasks, priority, dueDate}
     }
     //
-    let tasky = fullTask(tasks, priority, dueDate)
+    let newTask = fullTask(tasks, priority, dueDate)
 
-    array.tasksArray.push(tasky);
+    array.tasksArray.push(newTask);
 }
 
 //adds a task to the completed task array
@@ -50,9 +50,9 @@ function removeTask(array, tasks, priority, dueDate){
         return{tasks, priority, dueDate}
     }
 
-    let tasky = fullTask(tasks, priority, dueDate)
+    let newTask = fullTask(tasks, priority, dueDate)
 
-    array.finishedTasksArray.push(tasky);
+    array.finishedTasksArray.push(newTask);
 }
 
 let defaultProjectOne = projectFactory("Mow The Lawn", "Charge the battery", 3);
