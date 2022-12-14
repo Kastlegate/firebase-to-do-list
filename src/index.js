@@ -1,12 +1,15 @@
 import './style.css';
 import './all.css';
-import { getAllProjectsArray, addProject, setallProjects, } from './toDoFunctions.js';
-import { addProjectsToSideBar, addTasksToCurrentProject, newProjectFormActivate, 
-    newProjectFormDeactivate, newTaskFormActivate, newTaskFormDeactivate, addNewTaskButtonClicked, 
-    addProjectButtonClicked, addnewProjectCancelClicked, createToDoListPostItNotes, createNewProjectButtonPressed } from './toDoListDom.js';
+
+import { getAllProjectsArray } from './toDoFunctions.js';
+import { addProjectButtonClicked, 
+    createToDoListPostItNotes, 
+    createNewProjectButtonPressed 
+} from './toDoListDom.js';
 import { compareAsc, format } from 'date-fns'
 // Import the functions you need from the SDKs you need
 import { initializeApp } from "firebase/app";
+import { getAuth, createUserWithEmailAndPassword  } from "firebase/auth";
 import {
     getFirestore,
     collection,
@@ -41,9 +44,12 @@ const firebaseConfig = {
   };
   
   
-  // Initialize Firebase
-  
-  const app = initializeApp(firebaseConfig);
+// Initialize Firebase
+const app = initializeApp(firebaseConfig);
+
+// Initialize Firebase Authentication and get a reference to the service
+const auth = getAuth(app);
+
 
 
   
@@ -102,105 +108,8 @@ let postItNoteContainerTwo = document.createElement("div");
     postItNoteContainerTwo.id="postItNoteContainerTwo"
     mainContent.appendChild(postItNoteContainerTwo);
 
-// navigation sidebar
-// let sideBar = document.createElement("div");
-//     sideBar.id = "sideBar";
-//     mainContent.appendChild(sideBar);
-//     let sideBarInfo = document.createElement("div");
-//     sideBarInfo.id = "sideBarInfo"
-//     sideBarInfo.textContent = "To Do";
-//     sideBar.appendChild(sideBarInfo);
 
 
-
-//Used in sidebar to display a list of all projects
-// let projectListContainer = document.createElement("div");
-//     projectListContainer.id = "projectListContainer";
-//     sideBar.appendChild(projectListContainer);
-// current project display
-// let projectDisplay = document.createElement("div");
-//     projectDisplay.id = "projectDisplay";
-//     mainContent.appendChild(projectDisplay);
-// title for the current project
-// let currentProjectTitle = document.createElement("h1");
-//     currentProjectTitle.id = "currentProjectTitle";
-//     currentProjectTitle.textContent = "Select a To Do List to begin";
-//     projectDisplay.appendChild(currentProjectTitle);
-// // content for the current project
-// let projectContent = document.createElement("div");
-//     projectContent.id = "projectContent";
-//     projectDisplay.appendChild(projectContent);
-    
-// creates the new Project Form
-let newProjectForm = document.createElement("form");
-    newProjectForm.id = "newProjectForm";
-    newProjectForm.setAttribute("onsubmit", "return false")
-    newProjectForm.classList.add("hideForm");
-    // projectDisplay.insertBefore(newProjectForm, currentProjectTitle);
-
- //Gets the project name
-let title = document.createElement("input");
-    title.id = "title";
-    title.classList.add("formItem");
-    title.setAttribute("placeholder", "Enter The name of Your new To Do List")
-    newProjectForm.appendChild(title);
-
-//Gets the projects first task
-let firstTask = document.createElement("input");
-    firstTask.id = "firstTask";
-    firstTask.classList.add("formItem");
-    firstTask.setAttribute("placeholder", "Enter the first Task in your To Do List")
-    newProjectForm.appendChild(firstTask);
-
-// //Gets the projects Priority
-// let  = document.createElement("input");
-//     firstTask.id = "firstTask";
-//     firstTask.classList.add("formItem");
-//     firstTask.setAttribute("placeholder", "Enter the first Task in your To Do List")
-//     newProjectForm.appendChild(firstTask);
-
-    // creates a button to add the project
-    let addProjectButton = document.createElement("button");
-    addProjectButton.id = "addProjectButton";    
-    addProjectButton.addEventListener("click", addProjectButtonClicked);
-    addProjectButton.textContent = "+ Add To Do list";
-    newProjectForm.appendChild(addProjectButton);
-    // creates a button to cancel the form entry
-    let addnewProjectCancel = document.createElement("button");
-    addnewProjectCancel.id = "addnewProjectCancel";
-    addnewProjectCancel.addEventListener("click", addnewProjectCancelClicked)
-    addnewProjectCancel.textContent = "Cancel";    
-    newProjectForm.appendChild(addnewProjectCancel);
-
-// Creates a form to collect a new task to add to the To Do List
-let newTaskForm = document.createElement("form");
-    newTaskForm.id = "newTaskForm";
-    newTaskForm.classList.add("newTaskForm");
-    newTaskForm.classList.add("hideForm");
-    newTaskForm.setAttribute("onsubmit", "return false")
-    // newProjectForm.classList.add("hideNewProjectForm");
-    // projectDisplay.insertBefore(newTaskForm, mainContent);
-
-    //Gets the new task
-    let newTask = document.createElement("input");
-    newTask.id = "newTask";
-    newTask.classList.add("formItem");
-    newTask.setAttribute("placeholder", "New Task")
-    newTaskForm.appendChild(newTask);
-
-    // button to add the new task
-    let addnewTaskButton = document.createElement("button");
-    addnewTaskButton.id = "addnewTaskButton";
-    addnewTaskButton.addEventListener("click", addNewTaskButtonClicked)
-    addnewTaskButton.textContent = "+ Add To List";    
-    newTaskForm.appendChild(addnewTaskButton);
-
-    // button that cancels adding a new task
-    let cancelNewTaskButton = document.createElement("button");
-    cancelNewTaskButton.id = "cancelNewTaskButton";
-    cancelNewTaskButton.addEventListener("click", newTaskFormDeactivate)
-    cancelNewTaskButton.textContent = "Cancel";    
-    newTaskForm.appendChild(cancelNewTaskButton);
     
 //checks to see if locale storage has been used, and loads the previous saved data if so.
 if (localStorage.getItem('projects'))
