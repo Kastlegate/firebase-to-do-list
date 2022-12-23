@@ -203,6 +203,31 @@ body{
     font-size: small;
 }
 
+.signInWithGoogleButton{
+    color: white;
+    font-size: small;
+    margin: auto 0px 0px  auto;
+    width: fit-content;
+}
+
+.signUpForm{
+    display: flex;
+    flex-direction: row;
+    width: fit-content;
+    height: fit-content;
+    margin-right: 0px;
+}
+
+.email{
+    width: 100px;
+}
+
+.label{
+    color: white;
+    /* font-size: 14px; */
+    margin: auto 5px auto auto;
+}
+
 #createNewProject{
     position: fixed;
     font-size: 25px;

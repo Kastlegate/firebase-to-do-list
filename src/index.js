@@ -1,15 +1,22 @@
+// imports from the to do list files
 import './style.css';
 import './all.css';
-
 import { getAllProjectsArray } from './toDoFunctions.js';
 import { addProjectButtonClicked, 
     createToDoListPostItNotes, 
     createNewProjectButtonPressed 
 } from './toDoListDom.js';
 import { compareAsc, format } from 'date-fns'
+
 // Import the functions you need from the SDKs you need
 import { initializeApp } from "firebase/app";
-import { getAuth, createUserWithEmailAndPassword  } from "firebase/auth";
+import { 
+    getAuth, 
+    createUserWithEmailAndPassword,
+    signInWithRedirect, 
+    getRedirectResult, 
+    GoogleAuthProvider
+      } from "firebase/auth";
 import {
     getFirestore,
     collection,
@@ -43,15 +50,70 @@ const firebaseConfig = {
   
   };
   
-  
 // Initialize Firebase
 const app = initializeApp(firebaseConfig);
 
+
 // Initialize Firebase Authentication and get a reference to the service
 const auth = getAuth(app);
+const db = getFirestore(app);
+
+
+// Creates an instance of the google provider object
+const provider = new GoogleAuthProvider();
+
+function signInWithGoogleButtonClicked(){
+
+
+    signInWithRedirect(auth, provider);
+
+    
+}
+
+
+getRedirectResult(auth)
+    .then((result) => {
+        // This gives you a Google Access Token. You can use it to access Google APIs.
+        const credential = GoogleAuthProvider.credentialFromResult(result);
+        const token = credential.accessToken;
+
+        // The signed-in user info.
+        const user = result.user;
+    }).catch((error) => {
+        // Handle Errors here.
+        const errorCode = error.code;
+        const errorMessage = error.message;
+        // The email of the user's account used.
+        const email = error.customData.email;
+        // The AuthCredential type that was used.
+        const credential = GoogleAuthProvider.credentialFromError(error);
+        // ...
+    });
 
 
 
+
+// let email = "email";
+// let password = "password";
+// // function to create the user from their email and password
+// createUserWithEmailAndPassword(auth, email, password)
+//   .then((userCredential) => {
+//     // Signed in 
+//     const user = userCredential.user;
+//     // ...
+//   })
+//   .catch((error) => {
+//     const errorCode = error.code;
+//     const errorMessage = error.message;
+//     // ..
+//   });
+
+//   // creates the sign in funtcion
+//   async function signIn() {
+//     // Sign in Firebase using popup auth and Google as the identity provider.
+//     var provider = new GoogleAuthProvider();
+//     await signInWithPopup(getAuth(), provider);
+//   }
   
 
 // creates the header
@@ -84,7 +146,42 @@ let logoBoxThree = document.createElement("div");
     logoBoxContainer.appendChild(logoBoxThree);
 
 
+let signInWithGoogleButton = document.createElement("div");
+signInWithGoogleButton.textContent = "Sign In With Google";
+signInWithGoogleButton.classList.add("signInWithGoogleButton")
+signInWithGoogleButton.addEventListener("click", signInWithGoogleButtonClicked)
+header.appendChild(signInWithGoogleButton)
 
+// //Creates a form to sign up a new user
+// let signUpForm = document.createElement("form");
+// signUpForm.classList.add("signUpForm")
+// header.appendChild(signUpForm)
+
+// let signUpEmail = document.createElement("input");
+// signUpEmail.id = "signUpEmail";
+// let signUpEmailLabel = document.createElement("label");
+// signUpEmailLabel.setAttribute("for", "signUpEmail")
+// signUpEmail.type = "email";
+// signUpEmailLabel.textContent = "Email: ";
+// signUpEmailLabel.classList.add("label");
+// signUpEmail.placeholder = "Email"
+// signUpEmail.classList.add("email")
+// //adds the email label and input to the form
+// signUpForm.appendChild(signUpEmailLabel)
+// signUpForm.appendChild(signUpEmail)
+
+// let signUpPassword = document.createElement("input");
+// signUpPassword.id = "signUpEmail";
+// let signUpPasswordLabel = document.createElement("label");
+// signUpPasswordLabel.setAttribute("for", "signUpPassword")
+// signUpPassword.type = "password";
+// signUpPasswordLabel.textContent = "Password: ";
+// signUpPasswordLabel.classList.add("label");
+// signUpPassword.placeholder = "Password"
+// signUpPassword.classList.add("email")
+// //adds the email label and input to the form
+// signUpForm.appendChild(signUpPasswordLabel)
+// signUpForm.appendChild(signUpPassword)
 
 let createNewProject = document.createElement("div");
 createNewProject.id = "createNewProject";
