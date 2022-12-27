@@ -65,6 +65,7 @@ allProjects.push(defaultProjectTwo);
 addTask(allProjects[0], "Get mower out of storage", 2);
 addTask(allProjects[1], "Shells", 2);
 addTask(allProjects[1], "Shredded Mexican Cheese", 2);
+addTask(allProjects[1], "Ground Beef", 2);
 removeTask(allProjects[1], "Seasoning", 1)
 
 function getAllProjectsArray(){
