@@ -71,50 +71,11 @@ function signInWithGoogleButtonClicked(){
 }
 
 
-getRedirectResult(auth)
-    .then((result) => {
-        // This gives you a Google Access Token. You can use it to access Google APIs.
-        const credential = GoogleAuthProvider.credentialFromResult(result);
-        const token = credential.accessToken;
-
-        // The signed-in user info.
-        const user = result.user;
-    }).catch((error) => {
-        // Handle Errors here.
-        const errorCode = error.code;
-        const errorMessage = error.message;
-        // The email of the user's account used.
-        const email = error.customData.email;
-        // The AuthCredential type that was used.
-        const credential = GoogleAuthProvider.credentialFromError(error);
-        // ...
-    });
+// 
 
 
 
 
-// let email = "email";
-// let password = "password";
-// // function to create the user from their email and password
-// createUserWithEmailAndPassword(auth, email, password)
-//   .then((userCredential) => {
-//     // Signed in 
-//     const user = userCredential.user;
-//     // ...
-//   })
-//   .catch((error) => {
-//     const errorCode = error.code;
-//     const errorMessage = error.message;
-//     // ..
-//   });
-
-//   // creates the sign in funtcion
-//   async function signIn() {
-//     // Sign in Firebase using popup auth and Google as the identity provider.
-//     var provider = new GoogleAuthProvider();
-//     await signInWithPopup(getAuth(), provider);
-//   }
-  
 
 // creates the header
 let header = document.createElement("header");
@@ -206,60 +167,60 @@ let postItNoteContainerTwo = document.createElement("div");
     mainContent.appendChild(postItNoteContainerTwo);
 
 
-
+    createToDoListPostItNotes(getAllProjectsArray);
     
-//checks to see if locale storage has been used, and loads the previous saved data if so.
-if (localStorage.getItem('projects'))
-{
-    console.log("storage is present")
-    let projectsArray = JSON.parse(window.localStorage.getItem('projects'));
-    console.log(projectsArray)
-    setallProjects(projectsArray)
-    createToDoListPostItNotes(getAllProjectsArray);
-}
+// //checks to see if locale storage has been used, and loads the previous saved data if so.
+// if (localStorage.getItem('projects'))
+// {
+//     console.log("storage is present")
+//     let projectsArray = JSON.parse(window.localStorage.getItem('projects'));
+//     console.log(projectsArray)
+//     setallProjects(projectsArray)
+//     createToDoListPostItNotes(getAllProjectsArray);
+// }
 
-else{
-    console.log("storage is not present")
-    createToDoListPostItNotes(getAllProjectsArray);
-}
+// else{
+//     console.log("storage is not present")
+//     createToDoListPostItNotes(getAllProjectsArray);
+// }
 
 
 
-// checks to see if local storage is available
-function storageAvailable(type) {
-    var storage;
-    try {
-        storage = window[type];
-        var x = '__storage_test__';
-        storage.setItem(x, x);
-        storage.removeItem(x);
-        return true;
-    }
-    catch(e) {
-        return e instanceof DOMException && (
-            // everything except Firefox
-            e.code === 22 ||
-            // Firefox
-            e.code === 1014 ||
-            // test name field too, because code might not be present
-            // everything except Firefox
-            e.name === 'QuotaExceededError' ||
-            // Firefox
-            e.name === 'NS_ERROR_DOM_QUOTA_REACHED') &&
-            // acknowledge QuotaExceededError only if there's something already stored
-            (storage && storage.length !== 0);
-    }
-}
+// // checks to see if local storage is available
+// function storageAvailable(type) {
+//     var storage;
+//     try {
+//         storage = window[type];
+//         var x = '__storage_test__';
+//         storage.setItem(x, x);
+//         storage.removeItem(x);
+//         return true;
+//     }
+//     catch(e) {
+//         return e instanceof DOMException && (
+//             // everything except Firefox
+//             e.code === 22 ||
+//             // Firefox
+//             e.code === 1014 ||
+//             // test name field too, because code might not be present
+//             // everything except Firefox
+//             e.name === 'QuotaExceededError' ||
+//             // Firefox
+//             e.name === 'NS_ERROR_DOM_QUOTA_REACHED') &&
+//             // acknowledge QuotaExceededError only if there's something already stored
+//             (storage && storage.length !== 0);
+//     }
+// }
 
-if (storageAvailable('localStorage')) {
-    console.log("Local storage is available");
-  }
-  else {
-    console.log("Local storage is not available");
-  }
+// if (storageAvailable('localStorage')) {
+//     console.log("Local storage is available");
+//   }
+//   else {
+//     console.log("Local storage is not available");
+//   }
 
-//   localStorage.setItem('projects', JSON.stringify(getAllProjectsArray()))
-  localStorage.removeItem('projects', JSON.stringify(getAllProjectsArray()))
+// //   localStorage.setItem('projects', JSON.stringify(getAllProjectsArray()))
+//   localStorage.removeItem('projects', JSON.stringify(getAllProjectsArray()))
   
 
 
