@@ -33,7 +33,13 @@ body{
     display: flex;
     flex-direction: row;
     animation: dropDown 2s;
-    margin: auto;    
+    position: absolute;
+    /* top:0; */
+    /* bottom: 0; */
+    left: 0;
+    right: 0;
+    
+    margin: auto;
 }
 
 @keyframes dropDown {
@@ -237,6 +243,32 @@ body{
     color: rgb(0, 140, 255);
     transition: all 0.1s ease-in-out 0s; 
 }
+
+#userContainer{
+    display: flex;
+    flex-direction: row;
+    color: white;
+    width: fit-content;
+    height: 31px;
+    padding-left: 15px;
+}
+
+.userName{
+    animation: fadeInNotes 1s; 
+    margin: auto;  
+}
+
+#user-pic{
+
+    width: 30px;
+    height: 30px;
+    background-repeat: no-repeat;
+    background-size: contain;
+    animation: fadeInNotes 3s;
+    border-radius: 20px 20px 20px 20px;
+    margin-right: 5px;
+}
+
 
 #createNewProject:active {
     scale: 125%;

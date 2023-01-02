@@ -4,11 +4,12 @@ module.exports = {
   mode: 'development',
   entry: './src/index.js',
   output: {
-    // filename: 'main.js',
+    filename: 'main.js',
+    
     path: path.resolve(__dirname, 'dist'),
-    filename: 'bundle.js'
-
+    // filename: 'bundle.js',
   },
+
 
   module: {
     rules: [
