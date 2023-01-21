@@ -6,7 +6,6 @@
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "build": "webpack --mode=development"
-
   },
   "author": "Kastlegate",
   "license": "ISC",
@@ -18,6 +17,7 @@
   },
   "dependencies": {
     "date-fns": "^2.26.0",
-    "firebase": "^9.14.0"
+    "firebase": "^9.14.0",
+    "firebase-admin": "^11.4.1"
   }
 }

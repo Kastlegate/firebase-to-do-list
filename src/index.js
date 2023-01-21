@@ -1,7 +1,10 @@
 // imports from the to do list files
 import './style.css';
 import './all.css';
-import { getAllProjectsArray } from './toDoFunctions.js';
+
+import { getAllProjectsArray, getIndividualProject, addProject, addTask, removeTask } from "./toDoFunctions";
+
+// import { getAllProjectsArray } from './toDoFunctions.js';
 import { addProjectButtonClicked, 
     createToDoListPostItNotes, 
     createNewProjectButtonPressed 
@@ -25,11 +28,15 @@ import {
     addDoc,
     query,
     orderBy,
+    getDoc,
     limit,
     onSnapshot,
     setDoc,
     updateDoc,
     doc,
+    docs,
+    getDocs,
+    collectionGroup,
     serverTimestamp,
   } from 'firebase/firestore';
 
@@ -55,25 +62,95 @@ const firebaseConfig = {
 // Initialize Firebase
 const app = initializeApp(firebaseConfig);
 
-
-
-
 // Initialize Firebase Authentication and get a reference to the service
 const auth = getAuth(app);
-const db = getFirestore(app);
+
+// Initialize Cloud Firestore (the database) and get a reference to the service
+const db = getFirestore();
 
 // Returns the signed-in user's display name.
 function getUserName() {
-    return getAuth().currentUser.displayName;
-  
+    return getAuth().currentUser.displayName;  
   }
+
+  // Returns the signed-in user's display name.
+function getUserEmail() {
+  console.log(getAuth().currentUser.email)
+  return getAuth().currentUser.email;
+}
+
 
   // Returns the signed-in user's profile Pic URL.
 function getProfilePicUrl() {
     // TODO 4: Return the user's profile pic URL.
     return getAuth().currentUser.photoURL || '/images/profile_placeholder.png';
   
+}
+
+// all fireStore Functions
+
+function getTheStuff(ref) {
+  const collectionRef = collection(db, ref);
+  getDocs(collectionRef)
+      .then((snapshot) => {
+        
+        let index = 0;
+        snapshot.docs.forEach((doc) => {
+         
+          addProject(doc.id)
+
+          //create unfinished tasks lists
+          if(doc.data().tasks)
+          {
+            doc.data().tasks.forEach(element => {
+              addTask(getIndividualProject(index), element)
+            })
+          }
+
+          //create completed tasks lists
+          if (doc.data().completedTasks)
+          {
+            doc.data().completedTasks.forEach(element => {
+              removeTask(getIndividualProject(index), element)
+            })
+          }
+
+
+          // console.log(doc.data())
+          
+          // addTask(getIndividualProject(index), doc.data().tasks[0])
+          // addTask(getIndividualProject(index), doc.data().tasks[1])
+          ++index
+          createToDoListPostItNotes(getAllProjectsArray);
+        })
+        
+
+        createToDoListPostItNotes()
+        
+      })
+      .catch(err => {
+        console.log(err.message)
+      })
+
+
+}
+
+// Saves a new message to Cloud Firestore.
+async function saveUser() {
+  try {
+    await addDoc(collection(getFirestore(), getUserEmail()), {
+      name: getUserName(),
+      email: getUserEmail()
+    });
   }
+  catch(error) {
+    console.error('Error writing new message to Firebase Database', error);
+  }
+}
+
+
+
+
 
   // Adds a size to Google Profile pics URLs.
 function addSizeToGoogleProfilePic(url) {
@@ -87,6 +164,7 @@ function addSizeToGoogleProfilePic(url) {
 function authStateObserver(user) {
   if (user) {
     // User is signed in!
+    
     // Get the signed-in user's profile pic and name.
     var profilePicUrl = getProfilePicUrl();
     let userName = document.getElementById("userName")
@@ -95,6 +173,45 @@ function authStateObserver(user) {
     let signOutButton = document.getElementById("signOutButton")
     userName.textContent = getUserName();
     userName.hidden = false;
+    // saveUser()
+
+
+    getTheStuff(getUserEmail())
+    // get the data from the userName collection in firestore
+    // getDocs is an async function and returns a promise. the .then is ran if the promise is successful.
+    // the catch runs if the promise fails. this prmoise could also be done with an async await function
+    // getDocs(collectionRef)
+    //   .then((snapshot) => {
+    //     console.log(snapshot.docs)
+    //     let toDoLists = [];
+    //     let toDoList = {
+          
+    //     };
+    //     snapshot.docs.forEach((doc) => {
+          
+
+          
+    //       toDoLists.push({id: doc.id, ...doc.data()});
+       
+    //     })
+    //     console.log(toDoLists)
+    //     let index = 0;
+    //     // how are the items in this arranged?
+    //     toDoLists.forEach(element => {
+    //       console.log(index)
+    //       addProject(toDoLists[index].id, "")
+    //       createToDoListPostItNotes()
+    //       ++index;
+    //     });
+    //     console.log(toDoLists[0].task1)
+        
+    //   })
+    //   .catch(err => {
+    //     console.log(err.message)
+    //   })
+
+
+    
 
     // Set the user's profile pic and name.
     userPic.style.backgroundImage =
@@ -102,6 +219,7 @@ function authStateObserver(user) {
     userPic.hidden = false;
     signInWithGoogleButton.hidden = true;
     signOutButton.hidden = false;
+    
 
   } else {
     // User is signed out!
@@ -119,12 +237,12 @@ function initFirebaseAuth() {
 
 
   
-  // Creates an instance of the google provider object
+// Creates an instance of the google provider object
 const provider = new GoogleAuthProvider();
 
-
+// function that is called when the sign in with google button ic clicked. Takes the auth and google provider object
+// and lets the user sign in with their google account
 function signInWithGoogleButtonClicked(){
-
 
     signInWithRedirect(auth, provider);
      let email = getRedirectResult(auth)
@@ -307,5 +425,5 @@ let postItNoteContainerTwo = document.createElement("div");
     mainContent.appendChild(postItNoteContainerTwo);
 
 
-    createToDoListPostItNotes(getAllProjectsArray);
+    
     initFirebaseAuth();

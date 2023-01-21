@@ -186,7 +186,7 @@ function createToDoListPostItNotes(){
             postItNote.appendChild(divider)
         }
     
-    
+        
         //creates a list in the post it note populated with the finished tasks
         element.finishedTasksArray.forEach(element => {
 

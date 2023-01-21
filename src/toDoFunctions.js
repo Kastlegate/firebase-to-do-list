@@ -55,18 +55,18 @@ function removeTask(array, tasks, priority, dueDate){
     array.finishedTasksArray.push(newTask);
 }
 
-let defaultProjectOne = projectFactory("Mow The Lawn", "Charge the battery", 3);
-let defaultProjectTwo = projectFactory("Get stuff for Tacos", "Hamburger", 2);
+// let defaultProjectOne = projectFactory("", "", 3);
+// let defaultProjectTwo = projectFactory("Get stuff for Tacos", "Hamburger", 2);
 
 let allProjects = new Array();
-allProjects.push(defaultProjectOne);
-allProjects.push(defaultProjectTwo);
+// allProjects.push(defaultProjectOne);
+// allProjects.push(defaultProjectTwo);
 
-addTask(allProjects[0], "Get mower out of storage", 2);
-addTask(allProjects[1], "Shells", 2);
-addTask(allProjects[1], "Shredded Mexican Cheese", 2);
-addTask(allProjects[1], "Ground Beef", 2);
-removeTask(allProjects[1], "Seasoning", 1)
+// addTask(allProjects[0], "Get mower out of storage", 2);
+// addTask(allProjects[1], "Shells", 2);
+// addTask(allProjects[1], "Shredded Mexican Cheese", 2);
+// addTask(allProjects[1], "Ground Beef", 2);
+// removeTask(allProjects[1], "Seasoning", 1)
 
 function getAllProjectsArray(){
     return allProjects;
@@ -77,7 +77,7 @@ function getIndividualProject(i){
 }
 
 function addProject(title, task, priority){
-    let newProject = projectFactory(title);
+    let newProject = projectFactory(title, task);
     allProjects.push(newProject);
 }
 
