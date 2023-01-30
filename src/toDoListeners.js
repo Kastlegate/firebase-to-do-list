@@ -1,6 +1,69 @@
-import { getAllProjectsArray, getIndividualProject, addProject, addTask, removeTask } from "./toDoFunctions";
+import { getAllProjectsArray, 
+    getIndividualProject, 
+    addProject, 
+    addTask, 
+    removeTask } from "./toDoFunctions";
 import { createToDoListPostItNotes } from './toDoListDom.js';
+import { initializeApp } from "firebase/app";
+import { 
+    getAuth, 
+    createUserWithEmailAndPassword,
+    signInWithRedirect, 
+    getRedirectResult, 
+    GoogleAuthProvider,
+    signOut,
+    onAuthStateChanged
+      } from "firebase/auth";
+import {
+    getFirestore,
+    collection,
+    addDoc,
+    query,
+    orderBy,
+    getDoc,
+    limit,
+    onSnapshot,
+    setDoc,
+    updateDoc,
+    doc,
+    docs,
+    getDocs,
+    collectionGroup,
+    serverTimestamp,
+  } from 'firebase/firestore';
+  import { 
+    grabFromTheDatabase, 
+    getUserEmail, 
+    updateTitleInDatabase, 
+    getDocumentId,
+    updateTasksInDatabase 
+} from "./fireStoreFunctions"
 
+  const firebaseConfig = {
+
+    apiKey: "AIzaSyBc-taz8_wmgxYCiKwPvEJjQBnTKaZS2Gw",
+  
+    authDomain: "todolist-e6835.firebaseapp.com",
+  
+    projectId: "todolist-e6835",
+  
+    storageBucket: "todolist-e6835.appspot.com",
+  
+    messagingSenderId: "140539767501",
+  
+    appId: "1:140539767501:web:1d1522719dcde72f731784"
+  
+  };
+  
+  
+const app = initializeApp(firebaseConfig);
+
+
+// Initialize Cloud Firestore (the database) and get a reference to the service
+const db = getFirestore();
+  // Returns the signed-in user's display name.
+
+ 
 // function that creates a new task and adds it when the button is pressed
 function createTask(e){
 
@@ -18,8 +81,6 @@ function createTask(e){
 function createNewProjectButtonPressed(){
     addProject("", "")
     createToDoListPostItNotes()
-    
-    console.log("projects length " + getAllProjectsArray.length)
 }
 
 // listener for the delete post it note button
@@ -41,9 +102,16 @@ function titleTextClicked(e){
     // uses the data-task-id to get the current task inside the array
     let index = this.getAttribute("data-task-text-id")
 
+    //gets the document id assigned to this document
+    let fireStoreDocumentId = this.getAttribute("data-document-id")
+
     //updates the textarea with the new text
     this.textContent = this.value;
     getIndividualProject(array).title = this.textContent;
+
+    updateTitleInDatabase(fireStoreDocumentId, this.value)
+    // getDocumentId(this.id)
+
     createToDoListPostItNotes()
 
 
@@ -57,9 +125,13 @@ function taskTextClicked(e){
     // uses the data-task-id to get the current task inside the array
     let index = this.getAttribute("data-task-text-id")
 
+    //gets the document id assigned to this document
+    let fireStoreDocumentId = this.getAttribute("data-document-id-tasks")
+
     //updates the textarea with the new text
     this.textContent = this.value;
     getIndividualProject(array).tasksArray[index].tasks = this.textContent;
+    updateTasksInDatabase(fireStoreDocumentId, array, index, this.value)
     createToDoListPostItNotes()
 
 

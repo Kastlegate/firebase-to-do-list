@@ -1,9 +1,13 @@
 
 
 //factory that is used to create new projects
-function projectFactory (title, tasks, priority, dueDate)
+function projectFactory (title, tasks, id, priority, dueDate)
 {
     title = title;
+
+    // id pulled from firestore
+    // id = id;
+
     //another factory that will hold a task object, it's priority and it's due date 
     function fullTask (task){
         tasks = task;
@@ -21,7 +25,7 @@ function projectFactory (title, tasks, priority, dueDate)
     // an array that holds all finsished and checked tasks
     let finishedTasksArray = new Array();
 
-    return { title, tasksArray, finishedTasksArray, }
+    return { title, id, tasksArray, finishedTasksArray, }
 }
 
 //  adds a task to the tasksArray
@@ -76,8 +80,9 @@ function getIndividualProject(i){
     return allProjects[i];
 }
 
-function addProject(title, task, priority){
-    let newProject = projectFactory(title, task);
+function addProject(title, task, id, priority){
+
+    let newProject = projectFactory(title, task, id);
     allProjects.push(newProject);
 }
 

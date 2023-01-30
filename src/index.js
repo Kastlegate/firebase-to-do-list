@@ -1,7 +1,7 @@
 // imports from the to do list files
 import './style.css';
 import './all.css';
-
+import { grabFromTheDatabase, getUserEmail } from "./fireStoreFunctions"
 import { getAllProjectsArray, getIndividualProject, addProject, addTask, removeTask } from "./toDoFunctions";
 
 // import { getAllProjectsArray } from './toDoFunctions.js';
@@ -73,11 +73,11 @@ function getUserName() {
     return getAuth().currentUser.displayName;  
   }
 
-  // Returns the signed-in user's display name.
-function getUserEmail() {
-  console.log(getAuth().currentUser.email)
-  return getAuth().currentUser.email;
-}
+//   // Returns the signed-in user's display name.
+// function getUserEmail() {
+//   console.log(getAuth().currentUser.email)
+//   return getAuth().currentUser.email;
+// }
 
 
   // Returns the signed-in user's profile Pic URL.
@@ -89,51 +89,61 @@ function getProfilePicUrl() {
 
 // all fireStore Functions
 
-function getTheStuff(ref) {
-  const collectionRef = collection(db, ref);
-  getDocs(collectionRef)
-      .then((snapshot) => {
-        
-        let index = 0;
-        snapshot.docs.forEach((doc) => {
-         
-          addProject(doc.id)
-
-          //create unfinished tasks lists
-          if(doc.data().tasks)
-          {
-            doc.data().tasks.forEach(element => {
-              addTask(getIndividualProject(index), element)
-            })
-          }
-
-          //create completed tasks lists
-          if (doc.data().completedTasks)
-          {
-            doc.data().completedTasks.forEach(element => {
-              removeTask(getIndividualProject(index), element)
-            })
-          }
-
-
-          // console.log(doc.data())
-          
-          // addTask(getIndividualProject(index), doc.data().tasks[0])
-          // addTask(getIndividualProject(index), doc.data().tasks[1])
-          ++index
-          createToDoListPostItNotes(getAllProjectsArray);
-        })
-        
-
-        createToDoListPostItNotes()
-        
-      })
-      .catch(err => {
-        console.log(err.message)
-      })
-
+// grabs a document
+function grabDoc(userEmail, grabbedDoc){
+  const docRef = doc(db, userEmail, grabbedDoc);
 
 }
+
+// function getTheStuff(ref) {
+//   const collectionRef = collection(db, ref);
+  
+//   getDocs(collectionRef)
+//       .then((snapshot) => {
+        
+//         let index = 0;
+//         snapshot.docs.forEach((docSnapshot) => {
+
+
+
+//           addProject(docSnapshot.data().title)
+
+//       //     setDoc(doc(db, getUserEmail(), docSnapshot.id), {
+//       //  title: docSnapshot.id,
+//       //  tasks: docSnapshot.data().tasks,
+//       //  completedTasks: docSnapshot.data().completedTasks
+//       // });
+
+//           let tasks = docSnapshot.data().tasks;
+//           if(docSnapshot.data().tasks)
+//           {
+//             docSnapshot.data().tasks.forEach(element => {
+//               addTask(getIndividualProject(index), element)
+//               docSnapshot.data().tasks = tasks;
+//             })
+//           }
+
+//           //create completed tasks lists
+//           if (docSnapshot.data().completedTasks)
+//           {
+//             docSnapshot.data().completedTasks.forEach(element => {
+//               removeTask(getIndividualProject(index), element)
+//             })
+//           }
+//           ++index
+//           // createToDoListPostItNotes(getAllProjectsArray);
+//         })
+        
+
+//         createToDoListPostItNotes()
+        
+//       })
+//       .catch(err => {
+//         console.log(err.message)
+//       })
+
+
+// }
 
 // Saves a new message to Cloud Firestore.
 async function saveUser() {
@@ -176,39 +186,7 @@ function authStateObserver(user) {
     // saveUser()
 
 
-    getTheStuff(getUserEmail())
-    // get the data from the userName collection in firestore
-    // getDocs is an async function and returns a promise. the .then is ran if the promise is successful.
-    // the catch runs if the promise fails. this prmoise could also be done with an async await function
-    // getDocs(collectionRef)
-    //   .then((snapshot) => {
-    //     console.log(snapshot.docs)
-    //     let toDoLists = [];
-    //     let toDoList = {
-          
-    //     };
-    //     snapshot.docs.forEach((doc) => {
-          
-
-          
-    //       toDoLists.push({id: doc.id, ...doc.data()});
-       
-    //     })
-    //     console.log(toDoLists)
-    //     let index = 0;
-    //     // how are the items in this arranged?
-    //     toDoLists.forEach(element => {
-    //       console.log(index)
-    //       addProject(toDoLists[index].id, "")
-    //       createToDoListPostItNotes()
-    //       ++index;
-    //     });
-    //     console.log(toDoLists[0].task1)
-        
-    //   })
-    //   .catch(err => {
-    //     console.log(err.message)
-    //   })
+    grabFromTheDatabase(getUserEmail())
 
 
     

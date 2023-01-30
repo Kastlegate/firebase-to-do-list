@@ -10,10 +10,7 @@ import { deleteTaskClicked,
     activeTaskInListClicked 
 } from "./toDoListeners";
 
-// saves the current to do lists
-function saveLists(){
-    localStorage.setItem('projects', JSON.stringify(getAllProjectsArray()))
-}
+
 
 
 //function that sets the task's priority
@@ -71,6 +68,8 @@ function createToDoListPostItNotes(){
                 postItNote.classList.add("postItNotes")
                 //trash can to delete the To Do List
         
+        //track the element id for the 
+        let documentIdForTasks = element.id;
 
 
         // div that will be used to resize the container and textarea 
@@ -84,6 +83,7 @@ function createToDoListPostItNotes(){
             titleAreaContainer.appendChild(titleAreaResizer)
         // the editable text area
         let titleTextArea = document.createElement("textArea");
+            titleTextArea.dataset.documentId = element.id;
             titleTextArea.classList.add("taskTextArea");
             titleTextArea.setAttribute("value", element.title)
             titleTextArea.setAttribute("rows", "1")
@@ -168,6 +168,7 @@ function createToDoListPostItNotes(){
                 taskTextArea.setAttribute("placeholder", "New Task")
                 taskTextArea.dataset.taskTextId = getIndividualProject(index).tasksArray.indexOf(element);
                 taskTextArea.dataset.taskTextArrayId = index;
+                taskTextArea.dataset.documentIdTasks = documentIdForTasks;
                 taskTextArea.textContent = element.tasks;
                 taskTextArea.addEventListener("change", taskTextClicked)
                 textAreaContainer.appendChild(taskTextArea);
