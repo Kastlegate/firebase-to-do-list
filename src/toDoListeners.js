@@ -36,8 +36,11 @@ import {
     getUserEmail, 
     updateTitleInDatabase, 
     getDocumentId,
-    updateTasksInDatabase 
+    editTasksInDatabase,
+    updateTasksInDatabase,
+    updateCompletedTasksInDatabase 
 } from "./fireStoreFunctions"
+
 
   const firebaseConfig = {
 
@@ -79,7 +82,7 @@ function createTask(e){
 
  // function for the create new project button
 function createNewProjectButtonPressed(){
-    addProject("", "")
+    addProject("")
     createToDoListPostItNotes()
 }
 
@@ -96,7 +99,7 @@ function deletePostItNoteClicked(e) {
 }
 
 function titleTextClicked(e){
-
+    
     // uses the data-array-id to get the current object's taskArray;
     let array = this.getAttribute("data-title-text-id")
     // uses the data-task-id to get the current task inside the array
@@ -110,9 +113,8 @@ function titleTextClicked(e){
     getIndividualProject(array).title = this.textContent;
 
     updateTitleInDatabase(fireStoreDocumentId, this.value)
-    // getDocumentId(this.id)
 
-    createToDoListPostItNotes()
+    
 
 
 }
@@ -131,7 +133,7 @@ function taskTextClicked(e){
     //updates the textarea with the new text
     this.textContent = this.value;
     getIndividualProject(array).tasksArray[index].tasks = this.textContent;
-    updateTasksInDatabase(fireStoreDocumentId, array, index, this.value)
+    editTasksInDatabase(fireStoreDocumentId, array, index, this.value)
     createToDoListPostItNotes()
 
 
@@ -144,11 +146,15 @@ function activeTaskInListClicked(){
     // uses the data-task-id to get the current task inside the array
     let index = this.getAttribute("data-task-id")
     let checkMarkedTask = getIndividualProject(array).tasksArray[index];
-    removeTask(getIndividualProject(array), checkMarkedTask.tasks, checkMarkedTask.priority, checkMarkedTask.dueDate);
+    //gets the document id assigned to this document
+    let fireStoreDocumentId = this.getAttribute("data-document-id-tasks")
+    updateCompletedTasksInDatabase(fireStoreDocumentId, array, index)
+    removeTask(getIndividualProject(array), checkMarkedTask.tasks);    
 
     // removes the task from the array and populates the tasks on screen
     if (index > -1) {
-        getIndividualProject(array).tasksArray.splice(index, 1);}
+        getIndividualProject(array).tasksArray.splice(index, 1);
+    }
     createToDoListPostItNotes()
 }
 
@@ -159,12 +165,19 @@ function inactiveTaskInListClicked(){
     // uses the data-task-id to get the current task inside the array
     let index = this.getAttribute("data-check-marked-task-id")
     let checkMarkedTask = getIndividualProject(array).finishedTasksArray[index];
+    let fireStoreDocumentId = this.getAttribute("data-document-id-tasks")
+    updateTasksInDatabase(fireStoreDocumentId, array, index)
+    addTask(getIndividualProject(array), checkMarkedTask.tasks);
 
     // removes the task from the array and repopulates the tasks on screen
     if (index > -1) {
         getIndividualProject(array).finishedTasksArray.splice(index, 1);}
-        addTask(getIndividualProject(array), checkMarkedTask.tasks, checkMarkedTask.priority, checkMarkedTask.dueDate);
+        
+        
+        
+     
         createToDoListPostItNotes()
+       
 }
 
 // listener for the delete task button

@@ -11,43 +11,9 @@ import { deleteTaskClicked,
 } from "./toDoListeners";
 
 
+import uniqid from "uniqid";
 
-
-//function that sets the task's priority
-function menuSelection(){
-    let index = this.getAttribute("data-select-priority-id");
-    let array =  this.getAttribute("data-select-priority-array-id");
-    let select = this.getAttribute("id");
-
-    switch (select) {
-        case "priority-Low":
-            getIndividualProject(array).tasksArray[index].priority = 1;
-            break;
-
-        case "priority-Medium":
-            getIndividualProject(array).tasksArray[index].priority = 2;
-            break;
-
-        case "priority-High":
-            getIndividualProject(array).tasksArray[index].priority = 3;
-            break;
-    }
-    addTasksToCurrentProject(array);
-}
-
-function dateSelected(){
-    let index = this.getAttribute("data-due-date-id");
-    let array =  this.getAttribute("data-due-date-array");
-    let date = document.getElementById("Task " + index + ": DueDate")
-    getIndividualProject(array).tasksArray[index].dueDate = date.value;
-    saveLists();
-}
-
-
-
-
-
-
+// creates the post it notes in the dom
 function createToDoListPostItNotes(){
 
     let array = getAllProjectsArray();
@@ -147,8 +113,9 @@ function createToDoListPostItNotes(){
                 notCheckedMarkedBox.addEventListener("click", activeTaskInListClicked)
                 notCheckedMarkedBox.dataset.taskId = getIndividualProject(index).tasksArray.indexOf(element);
                 notCheckedMarkedBox.dataset.arrayId = index;
+                notCheckedMarkedBox.dataset.documentIdTasks = documentIdForTasks;
                 task.appendChild(notCheckedMarkedBox);
-
+                // console.log(getIndividualProject(index).tasksArray)
             // creates a div to hold the taskTextArea div and and another
             // div that will be used to resize the container and textarea 
             let textAreaContainer = document.createElement("div")
@@ -161,11 +128,11 @@ function createToDoListPostItNotes(){
                 textAreaContainer.appendChild(textAreaResizer)
             // the editable text area
             let taskTextArea = document.createElement("textArea");
-                // taskText.setAttribute("type", "text");
                 taskTextArea.classList.add("taskTextArea");
                 taskTextArea.setAttribute("value", element.tasks)
                 taskTextArea.setAttribute("rows", "1")
                 taskTextArea.setAttribute("placeholder", "New Task")
+                // console.log("wtf " + getIndividualProject(index).tasksArray.indexOf(element) + element.tasks)
                 taskTextArea.dataset.taskTextId = getIndividualProject(index).tasksArray.indexOf(element);
                 taskTextArea.dataset.taskTextArrayId = index;
                 taskTextArea.dataset.documentIdTasks = documentIdForTasks;
@@ -201,6 +168,7 @@ function createToDoListPostItNotes(){
                 checkedMarkedBox.classList.add("cursor")
                 checkedMarkedBox.dataset.checkMarkedTaskId = getIndividualProject(index).finishedTasksArray.indexOf(element);
                 checkedMarkedBox.dataset.finishedArrayId = index;
+                checkedMarkedBox.dataset.documentIdTasks = documentIdForTasks;
                 checkedMarkedBox.addEventListener("click", inactiveTaskInListClicked)
                 finishedTask.appendChild(checkedMarkedBox);
 

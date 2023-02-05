@@ -71,51 +71,111 @@ function updateTitleInDatabase(id, value){
     tasks: [],
     completedTasks: []
   });
+  
   }
   else if(id !== "undefined"){
     //creates a reference to this doc
-    const getRef = doc(db, getUserEmail(), id);
+    const getRef = doc(db, getUserEmail(), getRef.id);
     // updates the doc with the new title value
-    updateDoc(doc(db, getUserEmail(), getRef.id), {
+    updateDoc(doc(db, getUserEmail(), id), {
       title: value
       });
   }  
+
+  
+ 
 }
 
 
 //recieves either an id from 
-function updateTasksInDatabase(id, array, index, value){
-
+function editTasksInDatabase(id, array, index, value){
 
   //creates a reference to this doc
   const getRef = doc(db, getUserEmail(), id);
-
-  
-  // console.log(getIndividualProject(array).tasksArray[index].tasks)
-  // getIndividualProject(array).tasksArray[index].tasks = value;
-  console.log(getIndividualProject(array).tasksArray[index])
   let taskOnlyArray = [];
   getIndividualProject(array).tasksArray.forEach(element =>{
-    taskOnlyArray.push(element.tasks)
+    if (element.tasks !== ""){
+      taskOnlyArray.push(element.tasks)
+    }
+    
   })
-
-
-    // updates the doc with the new title value
+  
+    // updates the doc with the new to do list
     updateDoc(doc(db, getUserEmail(), getRef.id), {
       tasks: taskOnlyArray,
       });
 
-
-
-
-  // if (tasks === "undefined"){
-
-
-  // }
-  // else if(tasks !== "undefined"){
-
-  // }  
 }
+
+// removes the tasks clicked from the tasks array field in firestore and add it to the completed tasks array field in firestore
+function updateCompletedTasksInDatabase(id, array, index){
+
+  //creates a reference to this doc
+  const getRef = doc(db, getUserEmail(), id);
+  // arrays to duplicate each task and completed tasks arrays from the dom
+  let taskArray = [];
+  let completedTaskArray = [];
+  // task
+  let taskGoingToCompletedTasks = getIndividualProject(array).tasksArray[index].tasks;
+
+  //runs through each item in the individual arreay to populate the clone arrays
+  getIndividualProject(array).tasksArray.forEach(element =>{
+      taskArray.push(element.tasks)    
+  })
+  getIndividualProject(array).finishedTasksArray.forEach(element =>{   
+      completedTaskArray.push(element.tasks)    
+  })
+  //adds the task slected for completion to the completed tasks array before being
+  //added to the 
+  completedTaskArray.push(taskGoingToCompletedTasks)
+  //removes the selected task from the new array before using the new array in updateDoc  
+      if (index > -1) {
+      taskArray.splice(index, 1);
+  }
+    // updates the doc with the new to do list
+    updateDoc(doc(db, getUserEmail(), getRef.id), {
+      tasks: taskArray,
+      completedTasks: completedTaskArray, 
+      });
+
+    
+
+}
+
+function updateTasksInDatabase(id, array, index){
+
+  //creates a reference to this doc
+  const getRef = doc(db, getUserEmail(), id);
+  // arrays to duplicate each task and completed tasks arrays from the dom
+  let taskArray = [];
+  let completedTaskArray = [];
+  // task
+  let completedTaskGoingToTasks = getIndividualProject(array).finishedTasksArray[index].tasks;
+  getIndividualProject(array).tasksArray.forEach(element =>{
+    
+      taskArray.push(element.tasks)
+  }) 
+  getIndividualProject(array).finishedTasksArray.forEach(element =>{
+    
+      completedTaskArray.push(element.tasks)
+    
+  })
+  //adds the task slected for completion to the completed tasks array before being
+  //added to the 
+  taskArray.push(completedTaskGoingToTasks)
+  //removes the selected task from the new array before using the new array in updateDoc  
+      if (index > -1) {
+      completedTaskArray.splice(index, 1);
+  }
+    // updates the doc with the new to do list
+    updateDoc(doc(db, getUserEmail(), getRef.id), {
+      tasks: taskArray,
+      completedTasks: completedTaskArray, 
+      });
+
+}
+
+
 
 function grabFromTheDatabase(ref) {
     const collectionRef = collection(db, ref);
@@ -145,7 +205,6 @@ function grabFromTheDatabase(ref) {
               })
             }
             ++index
-            // createToDoListPostItNotes(getAllProjectsArray);
           })
           
   
@@ -161,4 +220,4 @@ function grabFromTheDatabase(ref) {
 
 
 
-  export { grabFromTheDatabase, getUserEmail, updateTitleInDatabase, updateTasksInDatabase }
+  export { grabFromTheDatabase, getUserEmail, updateTitleInDatabase, editTasksInDatabase, updateTasksInDatabase, updateCompletedTasksInDatabase }

@@ -1,7 +1,7 @@
 
 
 //factory that is used to create new projects
-function projectFactory (title, tasks, id, priority, dueDate)
+function projectFactory (title, tasks, id)
 {
     title = title;
 
@@ -11,17 +11,14 @@ function projectFactory (title, tasks, id, priority, dueDate)
     //another factory that will hold a task object, it's priority and it's due date 
     function fullTask (task){
         tasks = task;
-        priority = priority;
-        dueDate = dueDate;
 
-        return{tasks, priority, dueDate}
+        return{tasks}
     }
     // creates a task with the fullTask function
-    let newTask = fullTask(tasks, priority, dueDate )
+    let newTask = fullTask(tasks)
 
     //an Array that holds each To do list's tasks
     let tasksArray = new Array();
-    tasksArray.push(newTask);
     // an array that holds all finsished and checked tasks
     let finishedTasksArray = new Array();
 
@@ -29,32 +26,28 @@ function projectFactory (title, tasks, id, priority, dueDate)
 }
 
 //  adds a task to the tasksArray
-function addTask(array, tasks, priority, dueDate){
+function addTask(array, tasks){
 
-    function fullTask (task, priority, dueDate){
+    function fullTask (task){
         tasks = task;
-        priority = priority;
-        dueDate = dueDate;
 
-        return{tasks, priority, dueDate}
+        return{tasks}
     }
     //
-    let newTask = fullTask(tasks, priority, dueDate)
+    let newTask = fullTask(tasks)
 
     array.tasksArray.push(newTask);
 }
 
 //adds a task to the completed task array
-function removeTask(array, tasks, priority, dueDate){
-    function fullTask (task, priority, dueDate){
+function removeTask(array, tasks){
+    function fullTask (task){
         tasks = task;
-        priority = priority;
-        dueDate = dueDate;
 
-        return{tasks, priority, dueDate}
+        return{tasks}
     }
 
-    let newTask = fullTask(tasks, priority, dueDate)
+    let newTask = fullTask(tasks)
 
     array.finishedTasksArray.push(newTask);
 }
@@ -63,16 +56,10 @@ function removeTask(array, tasks, priority, dueDate){
 // let defaultProjectTwo = projectFactory("Get stuff for Tacos", "Hamburger", 2);
 
 let allProjects = new Array();
-// allProjects.push(defaultProjectOne);
-// allProjects.push(defaultProjectTwo);
 
-// addTask(allProjects[0], "Get mower out of storage", 2);
-// addTask(allProjects[1], "Shells", 2);
-// addTask(allProjects[1], "Shredded Mexican Cheese", 2);
-// addTask(allProjects[1], "Ground Beef", 2);
-// removeTask(allProjects[1], "Seasoning", 1)
 
 function getAllProjectsArray(){
+    // console.log(allProjects)
     return allProjects;
 }
 
@@ -80,7 +67,7 @@ function getIndividualProject(i){
     return allProjects[i];
 }
 
-function addProject(title, task, id, priority){
+function addProject(title, task, id){
 
     let newProject = projectFactory(title, task, id);
     allProjects.push(newProject);
