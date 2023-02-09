@@ -38,7 +38,9 @@ import {
     getDocumentId,
     editTasksInDatabase,
     updateTasksInDatabase,
-    updateCompletedTasksInDatabase 
+    updateCompletedTasksInDatabase,
+    deleteTasksInDatabase ,
+    deleteToDoListFromDatabase
 } from "./fireStoreFunctions"
 
 
@@ -90,7 +92,10 @@ function createNewProjectButtonPressed(){
 function deletePostItNoteClicked(e) {
     // uses the data-task-id to get the current task inside the array
     let index = this.getAttribute("data-delete-list-id")
+    //gets the document id assigned to this document
+    let fireStoreDocumentId = this.getAttribute("data-document-id-delete-post-it-note")
 
+    deleteToDoListFromDatabase(fireStoreDocumentId)
     // removes the task from the array 
     if (index > -1) {
         getAllProjectsArray().splice(index, 1);}
@@ -172,10 +177,6 @@ function inactiveTaskInListClicked(){
     // removes the task from the array and repopulates the tasks on screen
     if (index > -1) {
         getIndividualProject(array).finishedTasksArray.splice(index, 1);}
-        
-        
-        
-     
         createToDoListPostItNotes()
        
 }
@@ -183,13 +184,16 @@ function inactiveTaskInListClicked(){
 // listener for the delete task button
 function deleteTaskClicked() {
     // uses the data-array-id to get the current object's taskArray;
-    let array = this.getAttribute("data-delete-Finsihed-array-id")
+    let array = this.getAttribute("data-delete-finsihed-array-id")
     // uses the data-task-id to get the current task inside the array
     let index = this.getAttribute("data-delete-task-id")
+    
+    let fireStoreDocumentId = this.getAttribute("data-document-id-delete-task")
 
     // removes the task from the array 
     if (index > -1) {
         getIndividualProject(array).finishedTasksArray.splice(index, 1);}
+        deleteTasksInDatabase(fireStoreDocumentId, array, index)
         createToDoListPostItNotes()
 
 }

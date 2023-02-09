@@ -73,11 +73,6 @@ function getUserName() {
     return getAuth().currentUser.displayName;  
   }
 
-//   // Returns the signed-in user's display name.
-// function getUserEmail() {
-//   console.log(getAuth().currentUser.email)
-//   return getAuth().currentUser.email;
-// }
 
 
   // Returns the signed-in user's profile Pic URL.
@@ -94,56 +89,6 @@ function grabDoc(userEmail, grabbedDoc){
   const docRef = doc(db, userEmail, grabbedDoc);
 
 }
-
-// function getTheStuff(ref) {
-//   const collectionRef = collection(db, ref);
-  
-//   getDocs(collectionRef)
-//       .then((snapshot) => {
-        
-//         let index = 0;
-//         snapshot.docs.forEach((docSnapshot) => {
-
-
-
-//           addProject(docSnapshot.data().title)
-
-//       //     setDoc(doc(db, getUserEmail(), docSnapshot.id), {
-//       //  title: docSnapshot.id,
-//       //  tasks: docSnapshot.data().tasks,
-//       //  completedTasks: docSnapshot.data().completedTasks
-//       // });
-
-//           let tasks = docSnapshot.data().tasks;
-//           if(docSnapshot.data().tasks)
-//           {
-//             docSnapshot.data().tasks.forEach(element => {
-//               addTask(getIndividualProject(index), element)
-//               docSnapshot.data().tasks = tasks;
-//             })
-//           }
-
-//           //create completed tasks lists
-//           if (docSnapshot.data().completedTasks)
-//           {
-//             docSnapshot.data().completedTasks.forEach(element => {
-//               removeTask(getIndividualProject(index), element)
-//             })
-//           }
-//           ++index
-//           // createToDoListPostItNotes(getAllProjectsArray);
-//         })
-        
-
-//         createToDoListPostItNotes()
-        
-//       })
-//       .catch(err => {
-//         console.log(err.message)
-//       })
-
-
-// }
 
 // Saves a new message to Cloud Firestore.
 async function saveUser() {
@@ -254,6 +199,9 @@ function signOutUser() {
     let signOutButton = document.getElementById("signOutButton");  
     userName.hidden = true;
     profilePic.hidden = true;
+    postItNoteContainerOne.textContent = ""
+    postItNoteContainerTwo.textContent = ""
+    getAllProjectsArray().length = 0;
   }
   
 

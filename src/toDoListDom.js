@@ -81,6 +81,7 @@ function createToDoListPostItNotes(){
             deletePostItNoteContainer.classList.add("deleteTask", "cursor", "shrinkDeleteButton")
         let deletePostItNote = document.createElement("div")
             deletePostItNote.className = "fas fa-trash-alt";
+            deletePostItNote.dataset.documentIdDeletePostItNote = documentIdForTasks;
             deletePostItNote.dataset.deleteListId = index;
             deletePostItNote.dataset.deleteFinsihedArrayId = index;
             deletePostItNote.addEventListener("click", deletePostItNoteClicked)
@@ -132,7 +133,6 @@ function createToDoListPostItNotes(){
                 taskTextArea.setAttribute("value", element.tasks)
                 taskTextArea.setAttribute("rows", "1")
                 taskTextArea.setAttribute("placeholder", "New Task")
-                // console.log("wtf " + getIndividualProject(index).tasksArray.indexOf(element) + element.tasks)
                 taskTextArea.dataset.taskTextId = getIndividualProject(index).tasksArray.indexOf(element);
                 taskTextArea.dataset.taskTextArrayId = index;
                 taskTextArea.dataset.documentIdTasks = documentIdForTasks;
@@ -184,7 +184,7 @@ function createToDoListPostItNotes(){
             let deleteTask = document.createElement("div")
                 deleteTask.className = "fas fa-trash-alt";
                 deleteTask.classList.add("cursor");
-                // deleteTask.classList.add("deleteTask");
+                deleteTask.dataset.documentIdDeleteTask = documentIdForTasks;
                 deleteTask.dataset.deleteTaskId = getIndividualProject(index).finishedTasksArray.indexOf(element);
                 deleteTask.dataset.deleteFinsihedArrayId = index;
                 deleteTask.addEventListener("click", deleteTaskClicked)

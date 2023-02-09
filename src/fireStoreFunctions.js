@@ -24,12 +24,15 @@ import {
     newId,
     onSnapshot,
     setDoc,
+    deleteDoc,
     updateDoc,
     doc,
     docs,
     getDocs,
     collectionGroup,
     serverTimestamp,
+    Timestamp,
+    
   } from 'firebase/firestore';
 
   const firebaseConfig = {
@@ -69,21 +72,20 @@ function updateTitleInDatabase(id, value){
   const docRef = addDoc(collection(db, getUserEmail()), {
     title: value,
     tasks: [],
-    completedTasks: []
+    completedTasks: [],
   });
   
   }
   else if(id !== "undefined"){
     //creates a reference to this doc
-    const getRef = doc(db, getUserEmail(), getRef.id);
+    const getRef = doc(db, getUserEmail(), id);
     // updates the doc with the new title value
-    updateDoc(doc(db, getUserEmail(), id), {
+    updateDoc(doc(db, getUserEmail(), getRef.id), {
       title: value
       });
   }  
-
   
- 
+  grabFromTheDatabase(getUserEmail())
 }
 
 
@@ -175,17 +177,50 @@ function updateTasksInDatabase(id, array, index){
 
 }
 
+function deleteTasksInDatabase(id, array, index){
+  //creates a reference to this doc
+  const getRef = doc(db, getUserEmail(), id);
+  // arrays to duplicate each task and completed tasks arrays from the dom
+  let taskArray = [];
+  let completedTaskArray = [];
 
+  getIndividualProject(array).tasksArray.forEach(element =>{
+    
+      taskArray.push(element.tasks)
+  }) 
+  getIndividualProject(array).finishedTasksArray.forEach(element =>{
+    
+      completedTaskArray.push(element.tasks)
+    
+  })
+
+  //removes the selected task from the new array before using the new array in updateDoc  
+      if (index > -1) {
+      completedTaskArray.splice(index, 1);
+  }
+    // updates the doc with the new to do list
+    updateDoc(doc(db, getUserEmail(), getRef.id), {
+      tasks: taskArray,
+      completedTasks: completedTaskArray, 
+      });
+}
+
+//deletes the document (to do list)
+function deleteToDoListFromDatabase(id){
+  
+   deleteDoc(doc(db, getUserEmail(), id))
+}
 
 function grabFromTheDatabase(ref) {
     const collectionRef = collection(db, ref);
-    
+    //resets the projects so they will erase the previous list in the dom
+    getAllProjectsArray().length = 0;
     getDocs(collectionRef)
         .then((snapshot) => {
           
           let index = 0;
           snapshot.docs.forEach((docSnapshot) => {
- 
+            // uses the add project function to add the title of each list
             addProject(docSnapshot.data().title, '',  docSnapshot.id)
   
             let tasks = docSnapshot.data().tasks;
@@ -196,7 +231,7 @@ function grabFromTheDatabase(ref) {
                 docSnapshot.data().tasks = tasks;
               })
             }
-  
+
             //create completed tasks lists
             if (docSnapshot.data().completedTasks)
             {
@@ -205,8 +240,7 @@ function grabFromTheDatabase(ref) {
               })
             }
             ++index
-          })
-          
+          })          
   
           createToDoListPostItNotes()
           
@@ -218,6 +252,12 @@ function grabFromTheDatabase(ref) {
   
   }
 
-
-
-  export { grabFromTheDatabase, getUserEmail, updateTitleInDatabase, editTasksInDatabase, updateTasksInDatabase, updateCompletedTasksInDatabase }
+  export { 
+    grabFromTheDatabase,
+     getUserEmail,
+      updateTitleInDatabase,
+       editTasksInDatabase,
+        updateTasksInDatabase,
+         updateCompletedTasksInDatabase,
+          deleteTasksInDatabase,
+          deleteToDoListFromDatabase }
