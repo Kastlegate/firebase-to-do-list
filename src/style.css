@@ -1,12 +1,13 @@
 body{
     /* background-color: rgb(212, 172, 123); */
     height: 100vh;
-    width: 100%;
+    width: 100vw;
     margin: auto;
-    /* animation: fadeInBody 2s; */
+    animation: fadeInBody 2s;
+    /* position: relative; */
 }
 
-@keyframes fadeInBody {
+/* @keyframes fadeInBody {
     0%{
         opacity: 0;
     }
@@ -14,15 +15,17 @@ body{
     100%{
        opacity: 1;
     }
-}
+} */
 
 #header{
+    position: fixed;
     background-color: rgb(0, 140, 255);
-    height: 50px;
+    height: 70px;
     width: 100%;
     border-bottom: solid;
     display: flex;
     flex-direction: row;
+    margin: auto;
 }
 
 #logoContainter{
@@ -54,10 +57,11 @@ body{
 
 #logo{
     color: white;
-    font-size: 200%;    
+    font-size: 3rem;    
     /* height: 20px; */
     width: fit-content;
-    /* animation: dropDown 2s; */
+    animation: dropDown 2s;
+    
 }
 
 #logoBoxContainer{
@@ -67,35 +71,38 @@ body{
     margin-left: 10px;
     box-sizing:border-box;
     color: white;
+    font-size: 2rem;
 }
 
 #mainContent{
-    margin: auto;
-    height: 80%;
-    width: 80%;
+    padding-top: 5rem;
+    height: fit-content;
+    width: 100%;
     display: flex;
     flex-direction: row;
 }
 
 .postItNotesContainer{
     height: fit-content;
-    width: 30%;
+    width: 45vw;
     margin: 10px auto auto auto;
     display: flex;
-    flex-direction: column;
+    /* flex-direction: row; */
+    flex-wrap: wrap;
      animation: fadeInNotes 3s;
 }
 
 .postItNotes{
     background-color: rgb(0, 140, 255);
     color: white;
-    height: fit-content;
-    width: 100%;
+    min-height: fit-content;
+    max-width: 100%;
     padding: 10px 10px 10px 10px;
-    margin: 20px 20px 20px 20px;
+    margin: 3% auto 3% auto;
     box-shadow:  5px 5px 5px rgb(0, 0, 0, 0.5);
     border: 1px solid black;
-   
+    flex-basis: 100%;
+    
 }
 
 @keyframes fadeInNotes {
@@ -112,26 +119,29 @@ body{
     }
 }
 
-.titleAreaContainer{
+/* .titleAreaContainer{
     font-size: 30px;
     width: fit-content;
     height: fit-content;
     margin-bottom: 10px;
-}
+
+} */
 
 .task{
     height: fit-content !important;
     width: fit-content;
     display: flex;
     flex-direction: row;
+    font-size: 2rem;
 }
 
 .titleAreaContainer{
-    font-size: 30px;
+    /* font-size: 30px; */
     height: fit-content;
     width: fit-content;
     display: grid;
     margin-bottom: 10px;
+    font-size: 3rem;
 }
 
 
@@ -172,6 +182,7 @@ body{
     flex-direction: row;
     color: black;
     width: 100%;
+    font-size: 2rem;
 }
 
 .finishedTaskText{
@@ -212,8 +223,11 @@ body{
 .signInWithGoogleButton{
     color: white;
     font-size: small;
-    margin: auto 0px 0px  auto;
+    margin: auto 15px 0px  auto;
     width: fit-content;
+    font-size: 2rem;
+    cursor: pointer;
+    animation: fadeInNotes 3s; 
 }
 
 .signUpForm{
@@ -235,13 +249,18 @@ body{
 }
 
 #createNewProject{
-    position: fixed;
-    font-size: 25px;
+    /* position: absolute; */
+    /* font-size: 25px; */
     width: fit-content;
-    margin-top: 5px;
-    margin-left: 10px;
-    color: rgb(0, 140, 255);
+    margin: auto 0rem .5rem 4rem;
+    color: white;
     transition: all 0.1s ease-in-out 0s; 
+    font-size: 25px;
+    animation: fadeInNotes 3s;
+}
+.createNewTask{
+    font-size: 3rem;
+    cursor: pointer;
 }
 
 #userContainer{
@@ -251,12 +270,13 @@ body{
     width: fit-content;
     height: 31px;
     padding-left: 15px;
-    margin: auto auto 10px 0px;
+    margin: auto 0rem .5rem 0rem;
 }
 
 .userName{
     animation: fadeInNotes 1s; 
-    margin: auto;  
+    margin: auto;
+    font-size: 2rem;  
 }
 
 #user-pic{
@@ -276,21 +296,21 @@ body{
     /* transform: rotate(180deg); */
   }
 
-@media (max-width: 576px) {
+/* @media (max-width: 575px) {
 
     .titleAreaContainer{
-        width: 80%;
+        width: 100%;
         font-size: 15px;
 
     }
 
     .task{
-        width: 80%;
+        width: 100%;
         font-size: 10px;
         }
 
     .finishedTask{
-        width: 80%;
+        width: 100%;
         font-size: 10px;
 
     }
@@ -302,4 +322,4 @@ body{
     #userName{
         font-size: 80%;
     }
-}
+} */

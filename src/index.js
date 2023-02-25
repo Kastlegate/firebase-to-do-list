@@ -104,9 +104,6 @@ async function saveUser() {
 }
 
 
-
-
-
   // Adds a size to Google Profile pics URLs.
 function addSizeToGoogleProfilePic(url) {
     if (url.indexOf('googleusercontent.com') !== -1 && url.indexOf('?') === -1) {
@@ -251,6 +248,12 @@ userName.classList.add("userName");
 userName.hidden = "true"
 userContainer.appendChild(userName)
 
+let createNewProject = document.createElement("div");
+createNewProject.id = "createNewProject";
+createNewProject.title = "Create New To Do List"
+createNewProject.className = "fas fa-plus-circle"
+createNewProject.addEventListener("click", createNewProjectButtonPressed)
+header.appendChild(createNewProject);
 
 //container for the logo text and boxes
 let logoContainer = document.createElement("div");
@@ -328,17 +331,17 @@ header.appendChild(signOutButton)
 // signUpForm.appendChild(signUpPasswordLabel)
 // signUpForm.appendChild(signUpPassword)
 
-let createNewProject = document.createElement("div");
-createNewProject.id = "createNewProject";
-createNewProject.title = "Create New To Do List"
-createNewProject.className = "fas fa-plus-circle"
-createNewProject.addEventListener("click", createNewProjectButtonPressed)
-document.body.appendChild(createNewProject);
+
 
 // the main content of the page. A div that holds the navigation sidebar and the current project display
 let mainContent = document.createElement("div");
     mainContent.id = "mainContent";
     document.body.appendChild(mainContent);
+
+    // let postItNoteContainer = document.createElement("div");
+    // postItNoteContainer.classList.add("postItNotesContainer");
+    // postItNoteContainer.id ="postItNoteContainer";
+    // mainContent.appendChild(postItNoteContainer);
 
     let postItNoteContainerOne = document.createElement("div");
     postItNoteContainerOne.classList.add("postItNotesContainer");

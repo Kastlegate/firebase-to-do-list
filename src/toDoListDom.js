@@ -1,6 +1,7 @@
 import { getAllProjectsArray, 
     getIndividualProject } from "./toDoFunctions";
-import { deleteTaskClicked, 
+import { removeFocus,
+    deleteTaskClicked, 
     inactiveTaskInListClicked, 
     createTask, 
     createNewProjectButtonPressed, 
@@ -19,6 +20,8 @@ function createToDoListPostItNotes(){
     let array = getAllProjectsArray();
     let postItNoteContainerNumber = 1;
     let mainContent = document.getElementById("mainContent")
+    let postItNoteContainer = document.getElementById("postItNoteContainer")
+    // postItNoteContainer.textContent = "";
     let postItNoteContainerOne = document.getElementById("postItNoteContainerOne")
     let postItNoteContainerTwo = document.getElementById("postItNoteContainerTwo")
     // these containers each house a column of to do lists that will sit beside each other
@@ -69,10 +72,11 @@ function createToDoListPostItNotes(){
         // creates the new task button
         let createNewTask = document.createElement("div");
             createNewTask.id = "createNewTask";
+            createNewTask.classList.add("createNewTask");
             // createNewTask.dataset.createNewTaskArray = array.indexOf(element);
             createNewTask.dataset.createNewTaskid = index;
             createNewTask.textContent = "+"
-            createNewTask.classList.add("cursor");
+            // createNewTask.classList.add("cursor");
             createNewTask.addEventListener("click", createTask)
             addAndDeleteContainer.appendChild(createNewTask);
 
@@ -88,7 +92,7 @@ function createToDoListPostItNotes(){
             deletePostItNoteContainer.appendChild(deletePostItNote)
             addAndDeleteContainer.appendChild(deletePostItNoteContainer);   
 
-        //if statement to assign notes to alternating columns
+        // if statement to assign notes to alternating columns
         if(postItNoteContainerNumber === 1){
             postItNoteContainerOne.appendChild(postItNote);
             postItNoteContainerNumber = 2;
@@ -97,7 +101,7 @@ function createToDoListPostItNotes(){
             postItNoteContainerTwo.appendChild(postItNote);
             postItNoteContainerNumber = 1;
         }
-        
+        // postItNoteContainer.appendChild(postItNote)
         
         //creates a list in the post it note populated with the current active tasks
         element.tasksArray.forEach(element => {
@@ -116,7 +120,6 @@ function createToDoListPostItNotes(){
                 notCheckedMarkedBox.dataset.arrayId = index;
                 notCheckedMarkedBox.dataset.documentIdTasks = documentIdForTasks;
                 task.appendChild(notCheckedMarkedBox);
-                // console.log(getIndividualProject(index).tasksArray)
             // creates a div to hold the taskTextArea div and and another
             // div that will be used to resize the container and textarea 
             let textAreaContainer = document.createElement("div")
@@ -138,6 +141,11 @@ function createToDoListPostItNotes(){
                 taskTextArea.dataset.documentIdTasks = documentIdForTasks;
                 taskTextArea.textContent = element.tasks;
                 taskTextArea.addEventListener("change", taskTextClicked)
+                taskTextArea.addEventListener("keydown", function(event) {
+                    if (event.key === "Enter") {
+                        document.activeElement.blur()
+                    }
+                });
                 textAreaContainer.appendChild(taskTextArea);
             
             postItNote.appendChild(task)

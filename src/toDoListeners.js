@@ -124,6 +124,14 @@ function titleTextClicked(e){
 
 }
 
+function removeFocus(e){
+
+    // if(e.key === "Enter"){
+    //     console.log("help")
+    //     // this.blur();
+    // }
+    console.log("help")
+}
 
 function taskTextClicked(e){
 
@@ -140,8 +148,6 @@ function taskTextClicked(e){
     getIndividualProject(array).tasksArray[index].tasks = this.textContent;
     editTasksInDatabase(fireStoreDocumentId, array, index, this.value)
     createToDoListPostItNotes()
-
-
 }
 
 // deletes an item from the current to do list
@@ -179,7 +185,7 @@ function inactiveTaskInListClicked(){
         getIndividualProject(array).finishedTasksArray.splice(index, 1);}
         createToDoListPostItNotes()
        
-}
+} 
 
 // listener for the delete task button
 function deleteTaskClicked() {
@@ -198,4 +204,4 @@ function deleteTaskClicked() {
 
 }
 
-export { deleteTaskClicked, inactiveTaskInListClicked, createTask, createNewProjectButtonPressed, deletePostItNoteClicked, titleTextClicked, taskTextClicked, activeTaskInListClicked }
+export { removeFocus, deleteTaskClicked, inactiveTaskInListClicked, createTask, createNewProjectButtonPressed, deletePostItNoteClicked, titleTextClicked, taskTextClicked, activeTaskInListClicked }
