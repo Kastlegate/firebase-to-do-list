@@ -130,7 +130,7 @@ function removeFocus(e){
     //     console.log("help")
     //     // this.blur();
     // }
-    console.log("help")
+
 }
 
 function taskTextClicked(e){

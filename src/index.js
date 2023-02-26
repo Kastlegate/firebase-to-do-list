@@ -123,8 +123,13 @@ function authStateObserver(user) {
     let userPic = document.getElementById("user-pic")
     let signInWithGoogleButton = document.getElementById("signInWithGoogle");
     let signOutButton = document.getElementById("signOutButton")
+    let guideArrow = document.getElementById("guideArrow")
+
+    createNewProject.className = "fas fa-plus-circle"
     userName.textContent = getUserName();
     userName.hidden = false;
+    
+    
     // saveUser()
 
 
@@ -144,6 +149,9 @@ function authStateObserver(user) {
   } else {
     // User is signed out!
     // Hide signOut Button and show the sign in with google button.
+    createNewProject.className = ""
+    guideArrow.className = "";
+    guideArrow.textContent = ""
     signOutButton.hidden = true;
     signInWithGoogleButton.hidden = false;
 }
@@ -193,7 +201,7 @@ function signOutUser() {
     let userName = document.getElementById("userName")
     let profilePic = document.getElementById("user-pic")
     let signInWithGoogleButton = document.getElementById("signInWithGoogle");
-    let signOutButton = document.getElementById("signOutButton");  
+    let signOutButton = document.getElementById("signOutButton");
     userName.hidden = true;
     profilePic.hidden = true;
     postItNoteContainerOne.textContent = ""
@@ -248,12 +256,23 @@ userName.classList.add("userName");
 userName.hidden = "true"
 userContainer.appendChild(userName)
 
+let createNewProjectContainer = document.createElement("div");
+createNewProjectContainer.id = "createNewProjectContainer";
+createNewProjectContainer.hidden = false;
+header.appendChild(createNewProjectContainer)
+
 let createNewProject = document.createElement("div");
 createNewProject.id = "createNewProject";
 createNewProject.title = "Create New To Do List"
-createNewProject.className = "fas fa-plus-circle"
+// createNewProject.className = "fas fa-plus-circle"
 createNewProject.addEventListener("click", createNewProjectButtonPressed)
-header.appendChild(createNewProject);
+createNewProjectContainer.appendChild(createNewProject);
+
+let guideArrow = document.createElement("div")
+guideArrow.id = "guideArrow";
+// guideArrow.className = "fas fa-arrow-up";
+// guideArrow.textContent = "Click here to add a new Note!"
+createNewProjectContainer.appendChild(guideArrow);
 
 //container for the logo text and boxes
 let logoContainer = document.createElement("div");

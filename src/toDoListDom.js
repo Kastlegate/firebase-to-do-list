@@ -24,6 +24,19 @@ function createToDoListPostItNotes(){
     // postItNoteContainer.textContent = "";
     let postItNoteContainerOne = document.getElementById("postItNoteContainerOne")
     let postItNoteContainerTwo = document.getElementById("postItNoteContainerTwo")
+    let guideArrow = document.getElementById("guideArrow");
+
+    if (array.length < 1){
+        guideArrow.className = "fas fa-arrow-up";
+        guideArrow.textContent = "Click the plus button to add a new Note!" 
+    }
+    else{
+        guideArrow.className = "";
+        guideArrow.textContent = "" 
+    }
+
+
+
     // these containers each house a column of to do lists that will sit beside each other
     postItNoteContainerOne.textContent = "";
     postItNoteContainerTwo.textContent = "";
@@ -211,7 +224,7 @@ function createToDoListPostItNotes(){
         ++index
 
     });
-
+    
 
 }
 

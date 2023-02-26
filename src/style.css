@@ -32,7 +32,7 @@ body{
     height: fit-content;
     width: fit-content;
     /* margin-left: 45%; */
-    margin-top: 0px;
+    /* margin-top: 0px; */
     display: flex;
     flex-direction: row;
     animation: dropDown 2s;
@@ -41,7 +41,6 @@ body{
     /* bottom: 0; */
     left: 0;
     right: 0;
-    
     margin: auto;
 }
 
@@ -96,7 +95,7 @@ body{
     background-color: rgb(0, 140, 255);
     color: white;
     min-height: fit-content;
-    max-width: 100%;
+    width: 100%;
     padding: 10px 10px 10px 10px;
     margin: 3% auto 3% auto;
     box-shadow:  5px 5px 5px rgb(0, 0, 0, 0.5);
@@ -248,16 +247,34 @@ body{
     margin: auto 5px auto auto;
 }
 
+#createNewProjectContainer{
+    /* height: 100px; */
+    width: fit-content;
+    margin: auto 0rem 0rem 1rem;
+    display: flex;
+    flex-direction: column;
+}
+
 #createNewProject{
     /* position: absolute; */
     /* font-size: 25px; */
     width: fit-content;
-    margin: auto 0rem .5rem 4rem;
     color: white;
+    margin-top: 2rem;
     transition: all 0.1s ease-in-out 0s; 
     font-size: 25px;
     animation: fadeInNotes 3s;
 }
+
+#guideArrow{
+    width: fit-content;
+    transition: all 0.1s ease-in-out 0s; 
+    font-size: 25px;
+    animation: fadeInNotes 3s;
+    margin-top: 1.5rem;
+    color: rgb(0, 140, 255);
+}
+
 .createNewTask{
     font-size: 3rem;
     cursor: pointer;
