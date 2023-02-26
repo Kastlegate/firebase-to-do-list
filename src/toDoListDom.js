@@ -60,6 +60,11 @@ function createToDoListPostItNotes(){
             titleTextArea.dataset.titleTextId = index;
             titleTextArea.textContent = element.title;
             titleTextArea.addEventListener("change", titleTextClicked)
+            titleTextArea.addEventListener("keydown", function(event) {
+                if (event.key === "Enter") {
+                    document.activeElement.blur()
+                }
+            });
             titleAreaContainer.appendChild(titleTextArea);
         
         // container to house the add and delte buttons
